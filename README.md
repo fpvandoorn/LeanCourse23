@@ -36,37 +36,6 @@ To install Lean on a university computer, run `install_lean`. To install it on y
 
 If you have already followed the steps above, and want to get the latest exercises, open a terminal in your local copy of this repository (e.g. `cd LeanWiSe2324`) and then run `git pull`. This gives you the new exercises.
 
-<!-- ## Setting up Codespaces
-
-You can temporarily play with Lean using Github codespaces. This requires a Github account, and you can only use it for a limited amount of time each month. If you are signed in to Github, click here:
-
-<a href='https://codespaces.new/fpvandoorn/LeanWiSe2324' target="_blank" rel="noreferrer noopener"><img src='https://github.com/codespaces/badge.svg' alt='Open in GitHub Codespaces' style='max-width: 100%;'></a>
-
-* Make sure the Machine type is `4-core`, and then press `Create codespace`
-* After 1-2 minutes you see a VSCode window in your browser. However, it is still busily downloading mathlib in the background, so give it another few minutes (5 to be safe) and then open a `.lean` file to start.
-
-## To use this repository with Gitpod
-
-Gitpod is an alternative to codespaces that is slightly inconvenient, since it requires you to verify your phone number.
-
-Click this button to get started:
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/fpvandoorn/LeanWiSe2324)
-
-This creates a virtual machine in the cloud,
-and installs Lean and Mathlib.
-It then presents you with a VS Code window, running in a virtual
-copy of the repository.
-You can update the repository by opening a terminal in the browser
-and typing `git pull` followed by `lake exe cache get` as above.
-
-Gitpod gives you 50 free hours every month.
-When you are done working, choose `Stop workspace` from the menu on the left.
-The workspace should also stop automatically
-30 minutes after the last interaction or 3 minutes after closing the tab.
-
-To restart a previous workspace, go to [https://gitpod.io/workspaces/](https://gitpod.io/workspaces/). -->
-
 ## More information
 
 You can find the textbook that we will use online in
