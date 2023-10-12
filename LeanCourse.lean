@@ -1,1 +1,1 @@
-import LeanCourse.Common
+def hello := "world"

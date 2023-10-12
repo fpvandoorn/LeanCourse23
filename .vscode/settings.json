@@ -16,6 +16,7 @@
 	"lean-toolchain": true,
 	"mathematics_in_lean.pdf": true,
 	"MIL.lean": true,
+	"README.md":true,
     "LICENSE":true,
     ".devcontainer":true,
     },
