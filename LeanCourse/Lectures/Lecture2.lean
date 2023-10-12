@@ -39,6 +39,13 @@ example : 2 + 2 = 4 := by {
 
 
 
+/-
+# Practical remarks
+* Please register on Basis for the examination
+* Please register on eCampus for the course
+* You can download the course repository from `tinyurl.com/LeanCourse23`.
+* First assignment due 20.10.2023. Upload it to eCampus.
+-/
 
 
 
@@ -126,6 +133,7 @@ example (a b c : ℝ) (h1 : 2 * a ≤ 3 * b) (h2 : 1 ≤ a) (h3 : c = 2) :
 
 
 
+
 /-
 **Forwards Reasoning** is reasoning forwards from the hypotheses that other facts must hold.
 We can do this with the `have` tactic.
@@ -148,9 +156,9 @@ example : Continuous (fun x ↦ 2 + x * Real.sin x) := by sorry
 
 /-
 # Difference between `rw` and `apply`
-- `rw` can take place almost anywhere in the goal,
-  but `apply` has to match the outermost thing you are trying to prove
-- *generally* you `rw` with an equality, and `apply` with implications.
+- `rw` can be used to rewrite a subexpression (almost) anywhere in the goal,
+  `apply` has to match the outermost thing you are trying to prove.
+- *generally* you use `rw` with an equality, and `apply` with implications and "for all" statements.
 -/
 
 

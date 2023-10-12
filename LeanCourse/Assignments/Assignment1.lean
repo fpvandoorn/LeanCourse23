@@ -2,6 +2,8 @@ import LeanCourse.Common
 
 /-
 
+* Make sure to follow the instructions in the README to install Lean and set up this repository locally.
+
 * Read chapter 1 and sections 2.1 and 2.2 in Mathematics in Lean.
   https://leanprover-community.github.io/mathematics_in_lean
 
@@ -10,7 +12,7 @@ import LeanCourse.Common
   - `LeanCourse/MIL/C02_Basics/S02_Proving_Identities_in_Algebraic_Structures.lean`
   There are solutions in the solution folder in case you get stuck.
 
-* Hand in the solutions to the exercises below. Upload them on eCampus before
+* Hand in the solutions to the exercises below. Deadline: 20.10.2023.
 -/
 
 /-
