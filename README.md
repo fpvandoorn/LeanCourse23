@@ -1,5 +1,14 @@
 # Bonn Lean Course WiSe 23/24
 
+## In this repository
+
+You will find the Lean files in the `LeanCourse` directory:
+* The `Lectures` folder contains all lectures
+* The `Assignments` folder contains the assignments that you have to hand in via eCampus
+* The `MIL` folder contains the exercises from the book Mathematics in Lean. You can find the textbook online here:
+[Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/)
+(or as a
+[pdf document](https://leanprover-community.github.io/mathematics_in_lean/mathematics_in_lean.pdf)).
 
 ## Installation
 
@@ -11,9 +20,9 @@ To install Lean on a university computer, run `install_lean`. To install it on y
 
 * Go the the directory where you would like this package to live.
 
-* Run `git clone git@github.com:fpvandoorn/LeanWiSe2324.git`.
+* Run `git clone git@github.com:fpvandoorn/LeanCourse23.git`.
 
-* Run `cd LeanWiSe2324`
+* Run `cd LeanCourse23`
 
 * Run `lake exe cache get`
   * On Windows, if you get an error that starts with `curl: (35) schannel: next InitializeSecurityContext failed` it is probably your antivirus program that doesn't like that we're downloading many files. The easiest solution is to temporarily disable your antivirus program.
@@ -25,7 +34,7 @@ To install Lean on a university computer, run `install_lean`. To install it on y
 
 * If you launched VS Code from a menu, on the main screen, or in the File menu,
   click "Open folder" (just "Open" on a Mac), and choose the folder
-  `LeanWiSe2324` (*not* one of its subfolders).
+  `LeanCourse23` (*not* one of its subfolders).
 
 * Test that everything is working by opening `LeanCourse/Test.lean`.
   It is normal if it takes 10-40 seconds for Lean to start up.
@@ -34,13 +43,17 @@ To install Lean on a university computer, run `install_lean`. To install it on y
 
 ### Get new exercises
 
-If you have already followed the steps above, and want to get the latest exercises, open a terminal in your local copy of this repository (e.g. `cd LeanWiSe2324`) and then run `git pull`. This gives you the new exercises.
+If you have already followed the steps above, and want to get the latest exercises, open a terminal in your local copy of this repository (e.g. `cd LeanCourse23`) and then run `git pull`. This gives you the new exercises.
 
-<!-- ## Setting up Codespaces
+## Temporary ways to use Lean
+
+You can temporarily use Codespaces or Gitpod if you have trouble installing Lean locally.
+
+### Setting up Codespaces
 
 You can temporarily play with Lean using Github codespaces. This requires a Github account, and you can only use it for a limited amount of time each month. If you are signed in to Github, click here:
 
-<a href='https://codespaces.new/fpvandoorn/LeanWiSe2324' target="_blank" rel="noreferrer noopener"><img src='https://github.com/codespaces/badge.svg' alt='Open in GitHub Codespaces' style='max-width: 100%;'></a>
+<a href='https://codespaces.new/fpvandoorn/LeanCourse23' target="_blank" rel="noreferrer noopener"><img src='https://github.com/codespaces/badge.svg' alt='Open in GitHub Codespaces' style='max-width: 100%;'></a>
 
 * Make sure the Machine type is `4-core`, and then press `Create codespace`
 * After 1-2 minutes you see a VSCode window in your browser. However, it is still busily downloading mathlib in the background, so give it another few minutes (5 to be safe) and then open a `.lean` file to start.
@@ -51,7 +64,7 @@ Gitpod is an alternative to codespaces that is slightly inconvenient, since it r
 
 Click this button to get started:
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/fpvandoorn/LeanWiSe2324)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/fpvandoorn/LeanCourse23)
 
 This creates a virtual machine in the cloud,
 and installs Lean and Mathlib.
@@ -65,11 +78,4 @@ When you are done working, choose `Stop workspace` from the menu on the left.
 The workspace should also stop automatically
 30 minutes after the last interaction or 3 minutes after closing the tab.
 
-To restart a previous workspace, go to [https://gitpod.io/workspaces/](https://gitpod.io/workspaces/). -->
-
-## More information
-
-You can find the textbook that we will use online in
-[html format](https://leanprover-community.github.io/mathematics_in_lean/)
-or as a
-[pdf document](https://leanprover-community.github.io/mathematics_in_lean/mathematics_in_lean.pdf).
+To restart a previous workspace, go to [https://gitpod.io/workspaces/](https://gitpod.io/workspaces/).
