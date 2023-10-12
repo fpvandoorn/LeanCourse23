@@ -41,24 +41,33 @@ example : 2 + 2 = 4 := by {
 
 
 
+
+
 /- # Rewriting
 
 `rw` (short for "rewrite") is a tactic that changes a part of a goal to something equal to it.
 -/
 
+#check (mul_assoc : ∀ a b c : ℝ, a * b * c = a * (b * c))
+#check (mul_comm : ∀ a b : ℝ, a * b = b * a)
+
 example (a b c : ℝ) : a * b * c = b * (a * c) := sorry
+
+
 
 
 /-
 In the following lemma the commutator of two elements of a group is defined as
-`⁅g, h⁆ = g * h * g ⁻¹ * h ⁻¹`
+`⁅g, h⁆ = g * h * g⁻¹ * h⁻¹`
 -/
 
 section
-variable {G : Type} [Group G] (g h : G)
+variable {G : Type*} [Group G]
+variable (g h : G)
 
 #check commutatorElement_def g h
 #check mul_inv_rev g h
+#check inv_inv g
 
 lemma inverse_of_a_commutator : ⁅g, h⁆⁻¹ = ⁅h, g⁆ := by sorry
 
@@ -83,42 +92,65 @@ example (a b c d : ℝ) (h : c = a*d - 1) (h' : b = a*d) : c = b - 1 := by sorry
 example (a b c d : ℝ) (h : a + c = b*a - d) (h' : d = a*b) : a + c = 0 := sorry
 
 
+/- A ring is a collection of objects `R` with operations `+`, `*`,
+constants `0` and `1` and negation `-` satisfying the following axioms. -/
+section
+variable (R : Type*) [Ring R]
+
+#check (add_assoc : ∀ a b c : R, a + b + c = a + (b + c))
+#check (add_comm : ∀ a b : R, a + b = b + a)
+#check (zero_add : ∀ a : R, 0 + a = a)
+#check (add_left_neg : ∀ a : R, -a + a = 0)
+#check (mul_assoc : ∀ a b c : R, a * b * c = a * (b * c))
+#check (mul_one : ∀ a : R, a * 1 = a)
+#check (one_mul : ∀ a : R, 1 * a = a)
+#check (mul_add : ∀ a b c : R, a * (b + c) = a * b + a * c)
+#check (add_mul : ∀ a b c : R, (a + b) * c = a * c + b * c)
 
 
+/- Let us use `calc` to prove the following from the axioms of rings. -/
 
-/- There are more advanced tactics that will do particular kinds of calculations.
-* `ring`: prove equalities in commutative rings
-* `linarith`: prove linear (in)equalities -/
+example {a b c : R} (h : a + b = a + c) : b = c := by sorry
 
-variable {R : Type} [CommRing R] (a b : R)
-example : (a - b) * (a + b) = a ^ 2 - b ^ 2 := by ring
+end
+
+
+/- `ring` is a tactic that automatically proves equalities in commutative rings. -/
+
+example (a b : ℝ) : (a + b) ^ 2 = a ^ 2 + 2 * a * b + b ^ 2 := by sorry
+
+example (a b c d : ℝ) (h1 : c = d * a + b) (h2 : b = a * d) : c = 2 * a * d := by sorry
 
 example (a b c : ℝ) (h1 : 2 * a ≤ 3 * b) (h2 : 1 ≤ a) (h3 : c = 2) :
-    c + a ≤ 5 * b := by linarith
+    c + a ≤ 5 * b := by sorry
 
 
 
+/-
+**Forwards Reasoning** is reasoning forwards from the hypotheses that other facts must hold.
+We can do this with the `have` tactic.
+-/
+
+example (p q r : Prop) (h1 : p → q) (h2 : q → r) : p → r := by sorry
 
 /-
 **Backwards reasoning** is where we chain implications backwards, deducing
 what we want to prove from a combination of other statements (potentially even stronger ones).
+We do this with the `apply` tactic.
 -/
 
-lemma simple_proof (p q r : Prop) (h1 : p → q) (h2 : q → r) : p → r := by sorry
-
-
-
-/- We can prove the following manually, or using more advanced tactics. -/
+example (p q r : Prop) (h1 : p → q) (h2 : q → r) : p → r := by sorry
 
 example : Continuous (fun x ↦ 2 + x * Real.sin x) := by sorry
 
-/- `apply?` can give suggestions what lemmas you could apply. -/
+
 
 
 /-
 # Difference between `rw` and `apply`
-- `rw` can take place almost anywhere in the goal, but `apply` has to match the outermost thing you are trying to prove
-- *generally* you `rw` with an equality, and `apply` anything else.
+- `rw` can take place almost anywhere in the goal,
+  but `apply` has to match the outermost thing you are trying to prove
+- *generally* you `rw` with an equality, and `apply` with implications.
 -/
 
 

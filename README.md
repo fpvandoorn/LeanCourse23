@@ -5,7 +5,7 @@
 You will find the Lean files in the `LeanCourse` directory:
 * The `Lectures` folder contains all lectures
 * The `Assignments` folder contains the assignments that you have to hand in via eCampus
-* The `MIL` folder contains the exercises from the book Mathematics in Lean. You can find the textbook online here:
+* The `MIL` folder contains the exercises from the book Mathematics in Lean (so that you don't have to separately clone the `mathematics_in_lean` repository). You can find the textbook online here:
 [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/)
 (or as a
 [pdf document](https://leanprover-community.github.io/mathematics_in_lean/mathematics_in_lean.pdf)).
@@ -49,7 +49,7 @@ If you have already followed the steps above, and want to get the latest exercis
 
 You can temporarily use Codespaces or Gitpod if you have trouble installing Lean locally.
 
-### Setting up Codespaces
+### Using Codespaces
 
 You can temporarily play with Lean using Github codespaces. This requires a Github account, and you can only use it for a limited amount of time each month. If you are signed in to Github, click here:
 
@@ -58,7 +58,7 @@ You can temporarily play with Lean using Github codespaces. This requires a Gith
 * Make sure the Machine type is `4-core`, and then press `Create codespace`
 * After 1-2 minutes you see a VSCode window in your browser. However, it is still busily downloading mathlib in the background, so give it another few minutes (5 to be safe) and then open a `.lean` file to start.
 
-## To use this repository with Gitpod
+### Using Gitpod
 
 Gitpod is an alternative to codespaces that is slightly inconvenient, since it requires you to verify your phone number.
 
