@@ -3,6 +3,12 @@ open Real
 noncomputable section
 set_option linter.unusedVariables false
 
+
+
+
+
+
+
 /- # Last Lecture -/
 
 /- You type code on the left-hand side of the screen,
@@ -39,6 +45,8 @@ example : 2 + 2 = 4 := by {
 
 
 
+
+
 /-
 # Practical remarks
 * Please register on Basis for the examination
@@ -46,6 +54,9 @@ example : 2 + 2 = 4 := by {
 * You can download the course repository from `tinyurl.com/LeanCourse23`.
 * First assignment due 20.10.2023. Upload it to eCampus.
 -/
+
+
+
 
 
 
@@ -58,7 +69,10 @@ example : 2 + 2 = 4 := by {
 #check (mul_assoc : ∀ a b c : ℝ, a * b * c = a * (b * c))
 #check (mul_comm : ∀ a b : ℝ, a * b = b * a)
 
-example (a b c : ℝ) : a * b * c = b * (a * c) := sorry
+example (a b c : ℝ) : a * b * c = b * (a * c) := by {
+  rw [mul_comm a, mul_assoc]
+
+  }
 
 
 
@@ -76,7 +90,16 @@ variable (g h : G)
 #check mul_inv_rev g h
 #check inv_inv g
 
-lemma inverse_of_a_commutator : ⁅g, h⁆⁻¹ = ⁅h, g⁆ := by sorry
+lemma inverse_of_a_commutator : ⁅g, h⁆⁻¹ = ⁅h, g⁆ := by {
+  rw [commutatorElement_def, commutatorElement_def]
+  rw [mul_inv_rev (g * h * g⁻¹) h⁻¹]
+  rw [mul_inv_rev]
+  rw [mul_inv_rev]
+  rw [inv_inv, inv_inv]
+  rw [mul_assoc]
+  rw [mul_assoc]
+
+}
 
 end
 
@@ -90,13 +113,24 @@ Variants of `rw`:
 You have to know what lemma you need to rewrite with.
 -/
 
-example (a b c d : ℝ) (h : c = a*d - 1) (h' : b = a*d) : c = b - 1 := by sorry
+example (a b c d : ℝ) (h : c = a*d - 1) (h' : b = a*d) : c = b - 1 := by {
+  rw [← h'] at h
+  assumption
+}
 
 /-
 # Calculational proofs using `calc`
 -/
 
-example (a b c d : ℝ) (h : a + c = b*a - d) (h' : d = a*b) : a + c = 0 := sorry
+example (a b c d : ℝ) (h : a + c = b*a - d) (h' : d = a*b) : a + c = 0 := by {
+  calc a + c
+      = b * a - d := by
+        rw [h]
+    _ = a * b - d := by rw [mul_comm]
+    _ = d - d := by rw [← h']
+    _ = 0 := by rw [@sub_eq_zero]
+
+}
 
 
 /- A ring is a collection of objects `R` with operations `+`, `*`,
@@ -117,29 +151,51 @@ variable (R : Type*) [Ring R]
 
 /- Let us use `calc` to prove the following from the axioms of rings. -/
 
-example {a b c : R} (h : a + b = a + c) : b = c := by sorry
+example {a b c : R} (h : a + b = a + c) : b = c := by
+   calc b
+      = 0 + b := by rw [zero_add]
+    _ = (-a + a) + b := by rw [add_left_neg]
+    _ = -a + (a + b) := by rw [add_assoc]
+    _ = -a + (a + c) := by rw [h]
+    _ = (-a + a) + c := by rw [add_assoc]
+    _ = 0 + c := by rw [add_left_neg]
+    _ = c := by rw [zero_add]
 
 end
 
 
-/- `ring` is a tactic that automatically proves equalities in commutative rings. -/
+/- `ring` is a tactic that automatically proves equalities in commutative rings.
+`linarith` helps you to prove linear (in)equalities. -/
 
-example (a b : ℝ) : (a + b) ^ 2 = a ^ 2 + 2 * a * b + b ^ 2 := by sorry
+example (a b : ℝ) : (a + b) ^ 2 = a ^ 2 + 2 * a * b + b ^ 2 := by ring
 
-example (a b c d : ℝ) (h1 : c = d * a + b) (h2 : b = a * d) : c = 2 * a * d := by sorry
+
+example (a b c d : ℝ) (h1 : c = d * a + b) (h2 : b = a * d) : c = 2 * a * d := by {
+  rw [h1, h2]
+  ring
+
+}
 
 example (a b c : ℝ) (h1 : 2 * a ≤ 3 * b) (h2 : 1 ≤ a) (h3 : c = 2) :
-    c + a ≤ 5 * b := by sorry
+    c + a ≤ 5 * b := by linarith
+
 
 
 
 
 /-
 **Forwards Reasoning** is reasoning forwards from the hypotheses that other facts must hold.
+`intro` is used to introduce assumptions.
 We can do this with the `have` tactic.
 -/
 
-example (p q r : Prop) (h1 : p → q) (h2 : q → r) : p → r := by sorry
+example (p q r : Prop) (h1 : p → q) (h2 : q → r) : p → r := by {
+  intro h3
+  have h4 : q := h1 h3
+  have h5 : r := h2 h4
+  exact h5
+
+}
 
 /-
 **Backwards reasoning** is where we chain implications backwards, deducing
@@ -147,9 +203,23 @@ what we want to prove from a combination of other statements (potentially even s
 We do this with the `apply` tactic.
 -/
 
-example (p q r : Prop) (h1 : p → q) (h2 : q → r) : p → r := by sorry
+example (p q r : Prop) (h1 : p → q) (h2 : q → r) : p → r := by {
+  intro h3
+  apply h2
+  apply h1
+  assumption
 
-example : Continuous (fun x ↦ 2 + x * Real.sin x) := by sorry
+}
+variable (f g : ℝ → ℝ)
+#check (Continuous.add : Continuous f → Continuous g → Continuous (f + g))
+example : Continuous (fun x ↦ 2 + x * Real.sin x) := by {
+  apply Continuous.add
+  · apply continuous_const
+  · apply Continuous.mul
+    · exact continuous_id
+    · exact continuous_sin
+
+}
 
 
 
@@ -172,4 +242,5 @@ example : Continuous (fun x ↦ 2 + x * Real.sin x) := by sorry
 lemma my_lemma {a b c : ℝ} (h : a + b = a + c) : b = c :=
     add_left_cancel h
 
-example {b c : ℝ} (h : 2 + b = 2 + c) : b = c := sorry -- prove using `my_lemma`
+example {b c : ℝ} (h : 2 + b = 2 + c) : b = c := by
+  exact my_lemma h
