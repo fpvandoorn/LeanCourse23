@@ -75,11 +75,11 @@ If a tactic is not recognized, write \lean{import Mathlib.Tactic} at the top of 
   \lean{have h :} \proposition\ \lean{:=} \expr & add a new hypothesis \lean{h} of type \proposition. \\
   \lean{have h :} \proposition & $\ldots$ also creates \proposition as a new goal.  \\
   \lean{by\_cases h :} \proposition & create two goals, one where \lean{h} is the hypothesis that \proposition is true and one where \lean{h} is the hypothesis where it is false. \\
-  \lean{congr} & prove an equality using congruence rules \\
-  \lean{gcongr} & prove an inequality using congruence rules \\
   \makecell[lt]{\lean{exfalso}} & replace the current goal by \lean{False}. \\
   \makecell[lt]{\lean{by\_contra h}} & start a proof by contradiction, where \lean{h} is the hypothesis that the current goal is false. \\
   \makecell[lt]{\lean{push\_neg}\\\lean{push\_neg at h}} & push negations into other connectives in the goal (or in \lean{h}); e.g.~change $\neg\;\forall$ \lean{x, P x} to $\exists$ \lean{x,} $\neg\;$\lean{P x}. \\
+  \lean{congr} & prove an equality using congruence rules \\
+  \lean{gcongr} & prove an inequality using congruence rules \\
   \lean{rw [}\expr\lean{]} & in the goal, replace (all occurrences of) the left-hand side
   of \expr by its right-hand side. \expr must be an equality or if and only if statement.\\
   \lean{rw [←}\expr\lean{]} & $\ldots$ rewrites from right-to-left \\
