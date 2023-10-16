@@ -18,6 +18,7 @@
 	"MIL.lean": true,
     "LICENSE":true,
     ".devcontainer":true,
+    "lean-tactics.tex":true,
     },
     "editor.minimap.enabled": false,
     "editor.acceptSuggestionOnEnter": "off",

@@ -1,0 +1,107 @@
+\documentclass[a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+%\usepackage[urw-garamond,expert,uppercase=upright,greeklowercase=upright]{mathdesign}
+%\usepackage[osf,swashQ]{garamondx}
+%
+%\usepackage{microtype}
+
+\usepackage[textwidth=17cm, textheight=27cm]{geometry}
+\usepackage{booktabs, xspace}
+\usepackage{amsmath,amsfonts,amssymb}
+
+\newcommand{\lean}[1]{{\tt #1}}
+\newcommand{\nv}{\textit{new\_name}\xspace}
+\newcommand{\nom}{\textit{name}\xspace}
+\newcommand{\expr}{\textit{expr}\xspace}
+\newcommand{\proposition}{\textit{proposition}\xspace}
+\newcommand{\hyp}{\textit{hyp}\xspace}
+\setlength\parindent{0pt}
+
+% Original authors (Lean 3 version): Patrick Massot and Johan Commelin
+% https://github.com/leanprover-community/lftcm2020/blob/master/lean-tactics.tex
+
+\usepackage{makecell}
+\usepackage{xcolor}
+
+\begin{document}
+\pagestyle{empty}
+\begin{center}
+ \large\textsc{Lean 4 Cheatsheet}
+\end{center}
+
+% In the following table,
+% \nom always refers to a name already known to Lean
+% while \nv refers to a new name provided by the user;
+% \expr designates any expression.\\
+% When one of these words appears twice in the same line,
+% the appearances do not designate the same name or
+% the same expression.
+If a tactic is not recognized, write \lean{import Mathlib.Tactic} at the top of your file.
+
+\begin{center}
+\setlength\tabcolsep{5mm}
+\def\arraystretch{1.3}
+\begin{tabular}{@{}lll@{}}
+  \toprule
+  Logical symbol & Appears in goal & Appears in hypothesis \\
+  \midrule
+  $\forall$ (for all) & \lean{intro x} & \lean{apply h} or \lean{specialize h x}  \\
+  $\to$ (implies) & \lean{intro h} & \lean{apply h} or \lean{specialize h1 h2} \\
+  $\neg$ (not) & \lean{intro h} & \lean{apply}/\lean{specialize}/\lean{contradiction}  \\
+  $\leftrightarrow$ (if and only if)\qquad & \lean{constructor}  & \lean{rw [h]}/\lean{rw [← h]}/\lean{apply h.mp}/\lean{apply h.mpr}\\
+  $\wedge$ (and) & \lean{constructor} & \lean{rcases h with ⟨h1, h2⟩} \\
+  $\exists$ (there exists) & \lean{use x} & \lean{rcases h with ⟨x, hx⟩} \\
+  $\vee$ (or) & \lean{left} or \lean{right} & \lean{rcases h with h|h} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+In the left-hand column of the following table,
+the parts in parentheses are optional.
+The effect of these parts is also in parentheses in the right-hand column.
+\vspace{-3mm}
+
+\begin{center}
+\setlength\tabcolsep{5mm}
+\def\arraystretch{1.3}
+\begin{tabular}{@{}lp{113mm}@{}}
+  \toprule
+  Tactic & Effect \\
+  \midrule
+  \lean{exact} \expr & prove the current goal exactly by \expr. \\
+  \lean{apply} \expr & prove the current goal by applying \expr to some arguments. \\
+  \lean{refine} \expr & like \lean{exact}, but \expr can contain sub-expressions \lean{?\_} that will be turned into new goals. \\
+  \lean{convert} \expr & prove the goal by showing that it is equal to the type of \expr. \\
+  \lean{have h :} \proposition\ \lean{:=} \expr & add a new hypothesis \lean{h} of type \proposition. \\
+  \lean{have h :} \proposition & $\ldots$ also creates \proposition as a new goal.  \\
+  \lean{by\_cases h :} \proposition & create two goals, one where \lean{h} is the hypothesis that \proposition is true and one where \lean{h} is the hypothesis where it is false. \\
+  \lean{congr} & prove an equality using congruence rules \\
+  \lean{gcongr} & prove an inequality using congruence rules \\
+  \makecell[lt]{\lean{exfalso}} & replace the current goal by \lean{False}. \\
+  \makecell[lt]{\lean{by\_contra h}} & start a proof by contradiction, where \lean{h} is the hypothesis that the current goal is false. \\
+  \makecell[lt]{\lean{push\_neg}\\\lean{push\_neg at h}} & push negations into other connectives in the goal (or in \lean{h}); e.g.~change $\neg\;\forall$ \lean{x, P x} to $\exists$ \lean{x,} $\neg\;$\lean{P x}. \\
+  \lean{rw [}\expr\lean{]} & in the goal, replace (all occurrences of) the left-hand side
+  of \expr by its right-hand side. \expr must be an equality or if and only if statement.\\
+  \lean{rw [←}\expr\lean{]} & $\ldots$ rewrites from right-to-left \\
+  \lean{rw [}\expr\lean{] at h} & $\ldots$ rewrite in hypothesis \lean{h} \\
+  \lean{simp} & simplify the goal using all lemmas tagged \lean{@[simp]}. \\
+  \lean{simp at h} & $\ldots$ simplify in hypothesis \lean{h}. \\
+  \lean{simp [*, }\expr\lean{]} & $\ldots$ also simplify with all hypotheses and \expr. \\
+  \lean{simp only [}\expr\lean{]}& $\ldots$ do not simplify with all standard lemmas, only with \expr. \\
+  \lean{simp?}& $\ldots$ ask Lean to generate a \lean{simp only [...]} tactic that applies the same simplifications. \\
+  \makecell[lt]{\lean{exact?}} & search for a single lemma that closes the goal using the current hypotheses. \\
+  \makecell[lt]{\lean{apply?}} & gives a list of lemmas that can apply to the current goal. \\
+  \makecell[lt]{\lean{rw?}} & gives a list of lemmas that can be used to rewrite the current goal. \\
+  \makecell[lt]{\lean{linarith}} & prove linear (in)equalities from the hypotheses \\
+  \makecell[lt]{\lean{ring} / \lean{noncomm\_ring}\\\lean{abel} / \lean{group}} & prove the goal by using the axioms of a commutative ring / ring / abelian group / group. \\
+  \makecell[lt]{\lean{aesop}} & simplify the goal, and use various techniques to prove the goal. \\
+  \makecell[lt]{\lean{tauto}} & prove certain goals using first-order logic. \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\end{document}
