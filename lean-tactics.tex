@@ -55,6 +55,7 @@ If a tactic is not recognized, write \lean{import Mathlib.Tactic} at the top of 
   $\wedge$ (and) & \lean{constructor} & \lean{rcases h with ⟨h1, h2⟩} \\
   $\exists$ (there exists) & \lean{use x} & \lean{rcases h with ⟨x, hx⟩} \\
   $\vee$ (or) & \lean{left} or \lean{right} & \lean{rcases h with h|h} \\
+  $ a = b$ (equality) & \lean{rfl} (if $b$ is $a$) & \lean{rw [h]} or \lean{rw [← h]} or \lean{subst h} (if $b$ is a variable) \\
 \bottomrule
 \end{tabular}
 \end{center}
