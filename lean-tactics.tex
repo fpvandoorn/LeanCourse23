@@ -51,11 +51,11 @@ If a tactic is not recognized, write \lean{import Mathlib.Tactic} at the top of 
   $\forall$ (for all) & \lean{intro x} & \lean{apply h} or \lean{specialize h x}  \\
   $\to$ (implies) & \lean{intro h} & \lean{apply h} or \lean{specialize h1 h2} \\
   $\neg$ (not) & \lean{intro h} & \lean{apply h} or \lean{contradiction}  \\
-  $\leftrightarrow$ (if and only if)\qquad & \lean{constructor}  & \lean{rw [h]} or \lean{rw [← h]} or \lean{apply h.mp} or \lean{apply h.mpr}\\
+  $\leftrightarrow$ (if and only if)\qquad & \lean{constructor}  & \lean{rw [h]} or \lean{rw [← h]} or \lean{apply h.1} or \lean{apply h.2}\\
   $\wedge$ (and) & \lean{constructor} & \lean{rcases h with ⟨h1, h2⟩} \\
   $\exists$ (there exists) & \lean{use x} & \lean{rcases h with ⟨x, hx⟩} \\
   $\vee$ (or) & \lean{left} or \lean{right} & \lean{rcases h with h|h} \\
-  $ a = b$ (equality) & \lean{rfl} (if $b$ is $a$) & \lean{rw [h]} or \lean{rw [← h]} or \lean{subst h} (if $b$ is a variable) \\
+  $ a = b$ (equality) & \lean{rfl} or \lean{ext} & \lean{rw [h]} or \lean{rw [← h]} or \lean{subst h} (if $b$ is a variable) \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -75,12 +75,15 @@ If a tactic is not recognized, write \lean{import Mathlib.Tactic} at the top of 
   \lean{have h :} \proposition & $\ldots$ also creates \proposition as a new goal.  \\
   \lean{by\_cases h :} \proposition & create two goals, one where \lean{h} is the hypothesis that \proposition is true and one where \lean{h} is the hypothesis where it is false. \\
   \makecell[lt]{\lean{exfalso}} & replace the current goal by \lean{False}. \\
-  \makecell[lt]{\lean{by\_contra h}} & start a proof by contradiction, where \lean{h} is the hypothesis that the current goal is false. \\
-  \makecell[lt]{\lean{push\_neg}\\\lean{push\_neg at h}} & push negations into quantifiers and connectives in the goal (or in \lean{h}); e.g.~change $\neg\;\forall$ \lean{x, P x} to $\exists$ \lean{x,} $\neg\;$\lean{P x}. \\
+  \makecell[lt]{\lean{by\_contra h}} & proof by contradiction; adds the negation of the goal as hypothesis \lean{h}. \\
+  \makecell[lt]{\lean{push\_neg} or \lean{push\_neg at h}} & push negations into quantifiers and connectives in the goal (or in \lean{h}).
+  %; e.g.~change $\neg\;\forall$ \lean{x, P x} to $\exists$ \lean{x,} $\neg\;$\lean{P x}.
+  \\
   \lean{symm} & swap a symmetric relation. \\
   \lean{trans} \expr & split a transitive relation into two parts with \expr in the middle. \\
   \lean{congr} & prove an equality using congruence rules. \\
   \lean{gcongr} & prove an inequality using congruence rules. \\
+  % \lean{ext} & prove an equality between elements of a specific type. \\
   \lean{rw [}\expr\lean{]} & in the goal, replace (all occurrences of) the left-hand side
   of \expr by its right-hand side. \expr must be an equality or if and only if statement.\\
   \lean{rw [←}\expr\lean{]} & $\ldots$ rewrites using \expr from right-to-left. \\
@@ -88,18 +91,21 @@ If a tactic is not recognized, write \lean{import Mathlib.Tactic} at the top of 
   \lean{simp} & simplify the goal using all lemmas tagged \lean{@[simp]} and basic reductions. \\
   \lean{simp at h} & $\ldots$ simplify in hypothesis \lean{h}. \\
   \lean{simp [*, }\expr\lean{]} & $\ldots$ also simplify with all hypotheses and \expr. \\
-  \lean{simp only [}\expr\lean{]}& $\ldots$ do not simplify with all standard lemmas, only with \expr. \\
+  \lean{simp only [}\expr\lean{]}& $\ldots$ only simplify with \expr and basic reductions (not with simp-lemmas). \\
   \lean{simp?}& $\ldots$ generate a \lean{simp only [...]} tactic that applies the same simplifications. \\
   \lean{simp\_rw [}\textit{expr1}\lean{, }\textit{expr2}\lean{]} & like \lean{rw}, but uses \lean{simp only} at each step. \\
   \makecell[lt]{\lean{exact?}} & search for a single lemma that closes the goal using the current hypotheses. \\
   \makecell[lt]{\lean{apply?}} & gives a list of lemmas that can apply to the current goal. \\
   \makecell[lt]{\lean{rw?}} & gives a list of lemmas that can be used to rewrite the current goal. \\
   \makecell[lt]{\lean{linarith}} & prove linear (in)equalities from the hypotheses. \\
-  \makecell[lt]{\lean{ring} / \lean{noncomm\_ring}\\\lean{abel} / \lean{group}} & prove the goal by using the axioms of a commutative ring / ring / abelian group / group. \\
+  \makecell[lt]{\lean{ring} / \lean{noncomm\_ring}\\ \lean{field\_simp} / \lean{abel} / \lean{group}} & prove the goal by using the axioms of a commutative ring / ring / field / abelian group / group. \\
   \makecell[lt]{\lean{aesop}} & simplify the goal, and use various techniques to prove the goal. \\
-  \makecell[lt]{\lean{tauto}} & prove certain goals using first-order logic. \\
+  \makecell[lt]{\lean{tauto}} & prove logical tautologies. \\
   \bottomrule
 \end{tabular}
+\mbox{}\\
+other useful tactics: \lean{induction}, \lean{ext}, \lean{positivity}, \lean{split\_ifs}, \lean{calc}, \lean{conv}, \lean{polyrith}, $\ldots$
+% honourable mentions: \lean{zify},
 \end{center}
 
 \end{document}

@@ -26,6 +26,7 @@ Tactics we saw last time:
 /-
 # Practical remarks
 * Reminder: first assignment due 20.10.2023. Upload it to eCampus.
+* To get the latest version of this repository, run `git pull` on the command line.
 -/
 
 
@@ -40,7 +41,7 @@ lemma my_lemma {a b c : ℝ} (h : a + b = a + c) : b = c :=
 /- # Orders -/
 
 section Real
-variable (a b c x y z : ℝ)
+variable (a b c d x y z : ℝ)
 
 #check (le_refl : ∀ a : ℝ, a ≤ a)
 #check (le_trans : a ≤ b → b ≤ c → a ≤ c)
@@ -51,6 +52,8 @@ variable (a b c x y z : ℝ)
 
 example (x : ℝ) : x ≤ x := by sorry
 
+
+
 example (x y z : ℝ) (h₀ : x ≤ y) (h₁ : y ≤ z) : x ≤ z := by sorry
 
 
@@ -58,24 +61,43 @@ example (x y z : ℝ) (h₀ : x ≤ y) (h₁ : y ≤ z) : x ≤ z := by sorry
 example (h₀ : a ≤ b) (h₁ : b < c) (h₂ : c ≤ d) (h₃ : d < e) : a < e := by sorry
 
 
+/- mathlib has lemmas that all common operations are monotone. Here are a few examples. -/
+
+#check (add_le_add : a ≤ b → c ≤ d → a + c ≤ b + d)
+#check (mul_le_mul : a ≤ b → c ≤ d → 0 ≤ c → 0 ≤ b → a * c ≤ b * d)
+#check exp_le_exp
+
+/-
+To use an "if and only if" statement `h`, you can use any of the following
+- `apply h.1`
+- `apply h.2`
+- `rw [h]`
+- `rw [← h]`
+-/
+
+example (h : a ≤ b) : exp a ≤ exp b := by sorry
+
+
+
+
+
+example (h : exp a ≤ exp b) : a ≤ b := by sorry
+
+
 /- `gcongr` is very convenient for monotonicity of functions. -/
 
-example (h : a ≤ b) : c - exp b ≤ c - exp a := by sorry
-
-
-
 example (h : a ≤ b) (h2 : b ≤ c) : exp a ≤ exp c := by sorry
+
+
+
+example (h : a ≤ b) : c - exp b ≤ c - exp a := by sorry
 
 
 
 example (h : a ≤ b) (h2 : b < c) (h3 : x ≤ y) : a + x ≤ c + y := by sorry
 
 
-
-example (h : a < b) (h3 : x ≤ y) : a + x < b + y := by sorry
-
-
-/- Remark: for equalities, `congr` is better than `gcongr` -/
+/- Remark: for equalities, you should use `congr` instead of `gcongr` -/
 
 example (h : a = b) : c - exp b = c - exp a := by sorry
 
@@ -85,13 +107,11 @@ example (h : a = b) : c - exp b = c - exp a := by sorry
 
 /-
 
-* API documentation: https://leanprover-community.github.io/mathlib4_docs/
-
 * Use `exact?`, `apply?`, `rw?` or `simp?` to find a lemma.
 
-* If you right-click on an existing theorem name in VS Code, the editor will show a menu with the option to jump to the file where the theorem is proven, and you can find similar theorems nearby.
-
 * Guess the name of the lemma
+  - You can search lemmas in the API documentation:
+    https://leanprover-community.github.io/mathlib4_docs/
   - When typing a name, a list of suggested completions automatically shows up
   - You can also press `ctrl-space` (or `cmd-space` on a Mac) to see the list of suggestions.
   - Pressing `ctrl-space` twice displays more information about the available completions.
@@ -102,33 +122,59 @@ example (h : a = b) : c - exp b = c - exp a := by sorry
   - `A`, `B`, and `C` approximate the way we might read the statement out loud.
   - Example: a theorem showing `x + y ≤ ...` will probably start with `add_le`.
     After typing `add_le` the autocomplete will give you some helpful choices.
+
+* If you right-click on a definition or theorem in VS Code, the editor will show a menu with the option to jump to the file where the theorem is proven, and you can find similar theorems nearby.
 -/
 
-
-example : 2*a*b ≤ a^2 + b^2 := by sorry
-
-
-/- # Other operations -/
+example (h : a < b) (h3 : x ≤ y) : a + exp x < b + exp y := by sorry
 
 
-/- The following theorems characterize `min`.
-Let's use it to prove that `min` is commutative. -/
-#check (min_le_left a b : min a b ≤ a)
-#check (min_le_right a b : min a b ≤ b)
-#check (le_min : c ≤ a → c ≤ b → c ≤ min a b)
 
-
-example : min a b = min b a := by sorry
-
-end Real
 
 /- Divisibility also gives an order. Warning: divisibility uses a unicode character,
 which can be written using `\|`. -/
 
 example (n m k : ℕ) (h₀ : n ∣ m) (h₁ : m ∣ k) : n ∣ k := by sorry
 
+
 example (n m k : ℕ) : m ∣ n * m * k := by sorry
 
+
+
+/- We can prove if and only if statements using `constructor`.
+  Afterwards we have to prove both implications. -/
+
+example : a + b ≤ c ↔ a ≤ c - b := by sorry
+
+
+
+/- The tactics for universal quantification and implication are the same.
+* We can use `intro` to prove an universal quantification or implication.
+* We can use `apply` or `specialize` to use an universal quantification or implication in a hypothesis. -/
+
+def NonDecreasing (f : ℝ → ℝ) := ∀ x₁ x₂ : ℝ, x₁ ≤ x₂ → f x₁ ≤ f x₂
+
+example (f g : ℝ → ℝ) (hg : NonDecreasing g) (hf : NonDecreasing f) :
+    NonDecreasing (g ∘ f) := by
+  sorry
+
+example (f g : ℝ → ℝ) (hf : NonDecreasing f) (hg : NonDecreasing g) :
+    NonDecreasing (fun x ↦ f x + g x) := by
+  sorry
+
+
+
+
+/- The following theorems characterize `min`.
+Let's use it to prove that `min` is commutative. -/
+#check (min : ℝ → ℝ → ℝ)
+#check (min_le_left a b : min a b ≤ a)
+#check (min_le_right a b : min a b ≤ b)
+#check (le_min : c ≤ a → c ≤ b → c ≤ min a b)
+
+example : min a b = min b a := by sorry
+
+end Real
 
 /- We can also work with abstract orders, such as an arbitrary partial order. -/
 
@@ -143,9 +189,15 @@ variable (x y z : α)
 #check (le_trans : x ≤ y → y ≤ z → x ≤ z)
 #check (le_antisymm : x ≤ y → y ≤ x → x = y)
 
--- every preorder comes automatically with an associated strict order
+/- every preorder comes automatically with an associated strict order -/
 example : x < y ↔ x ≤ y ∧ x ≠ y := by exact?
 
+
+/- the reverse order `≥`/`>` is defined from `≤`/`<`.
+  Some tactics don't work well with `≥`/`>`,
+  so in mathlib we prefer to state things using `≤`/`<` -/
+example : x ≥ y ↔ y ≤ x := by rfl
+example : x > y ↔ y < x := by rfl
 
 end PartialOrder
 
@@ -166,8 +218,6 @@ variable (x y z : α)
 #check (le_sup_right : y ≤ x ⊔ y)
 #check (sup_le : x ≤ z → y ≤ z → x ⊔ y ≤ z)
 
-
 example : x ⊓ (x ⊔ y) = x := by sorry
-
 
 end Lattice
