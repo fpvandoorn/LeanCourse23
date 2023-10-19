@@ -52,9 +52,9 @@ If a tactic is not recognized, write \lean{import Mathlib.Tactic} at the top of 
   $\to$ (implies) & \lean{intro h} & \lean{apply h} or \lean{specialize h1 h2} \\
   $\neg$ (not) & \lean{intro h} & \lean{apply h} or \lean{contradiction}  \\
   $\leftrightarrow$ (if and only if)\qquad & \lean{constructor}  & \lean{rw [h]} or \lean{rw [← h]} or \lean{apply h.1} or \lean{apply h.2}\\
-  $\wedge$ (and) & \lean{constructor} & \lean{rcases h with ⟨h1, h2⟩} \\
-  $\exists$ (there exists) & \lean{use x} & \lean{rcases h with ⟨x, hx⟩} \\
-  $\vee$ (or) & \lean{left} or \lean{right} & \lean{rcases h with h|h} \\
+  $\wedge$ (and) & \lean{constructor} & \lean{obtain ⟨h1, h2⟩ := h} \\
+  $\exists$ (there exists) & \lean{use x} & \lean{obtain ⟨x, hx⟩ := h} \\
+  $\vee$ (or) & \lean{left} or \lean{right} & \lean{obtain h1|h2 := h} \\
   $ a = b$ (equality) & \lean{rfl} or \lean{ext} & \lean{rw [h]} or \lean{rw [← h]} or \lean{subst h} (if $b$ is a variable) \\
 \bottomrule
 \end{tabular}

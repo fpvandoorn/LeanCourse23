@@ -15,7 +15,6 @@ macro (name := ring_at) "ring" cfg:config ? loc:location : tactic =>
 
 end
 
-
 namespace PiNotation
 open Lean.Parser Term
 open Lean.PrettyPrinter.Delaborator
@@ -292,3 +291,45 @@ example (p : Nat × Nat) : p.1 = p.2 → True := by simp
 example (p : (Nat → Nat) × (Nat → Nat)) : p.1 22 = p.2 37 → True := by simp
 
 end ProdProjNotation
+
+namespace Nat
+open Lean Elab Term Meta
+
+def elabIdentFactorial : TermElab := fun stx expectedType? =>
+  match stx with
+  | `($name:ident) => do
+    let name := name.getId
+    if name.hasMacroScopes then
+      -- I think this would mean the name appears from within a quote.
+      -- I'm not sure how to properly deal with this, and it seems ok to just not.
+      throwUnsupportedSyntax
+    else
+      try
+        elabIdent stx expectedType?
+      catch e =>
+        match name with
+        | .str n s =>
+          if s.endsWith "!" then
+            let name' := Name.str n (s.dropRight 1)
+            try
+              elabTerm (← `(Nat.factorial $(mkIdent name'))) expectedType?
+            catch _ =>
+              throw e
+          else
+            throw e
+        | _ => throw e
+  | _ => throwUnsupportedSyntax
+
+attribute [scoped term_elab ident] elabIdentFactorial
+
+end Nat
+
+section ExtraLemmas
+
+lemma pow_self_ne_zero (n : ℕ) : n ^ n ≠ 0 := by
+  by_cases hn : n = 0
+  · simp [hn]
+  · positivity
+
+
+end ExtraLemmas
