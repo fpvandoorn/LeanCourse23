@@ -21,12 +21,20 @@ You can prove that two sets are equal by applying `subset_antisymm` or using the
 
 variable {α β : Type*} (x : α) (s t : Set α)
 
+example : (fun x : ℝ ↦ x ^ 2) 3 = 10 := by
+  simp only
+
 /- We saw last time that we can prove that two sets are equal using `ext`. -/
-example : s ∩ t = t ∩ s := by sorry
+example : s ∩ t = t ∩ s := by
+  ext x
+  simp only [mem_inter_iff, and_comm]
 
 /- We can also use existing lemmas and `calc`. -/
-example : (s ∪ tᶜ) ∩ t = s ∩ t := by sorry
-
+example : (s ∪ tᶜ) ∩ t = s ∩ t := by
+  calc (s ∪ tᶜ) ∩ t
+      = (s ∩ t) ∪ (tᶜ ∩ t) := by rw [@inter_distrib_right]
+    _ = (s ∩ t) ∪ ∅ := by rw [@compl_inter_self]
+    _ = s ∩ t := by rw [@union_empty]
 
 
 
@@ -39,8 +47,10 @@ example : (s ∪ tᶜ) ∩ t = s ∩ t := by sorry
 def Evens : Set ℕ := {n : ℕ | Even n}
 def Odds : Set ℕ := {n | ¬ Even n}
 
-example : Evens ∪ Odds = univ := by sorry
-
+example : Evens ∪ Odds = univ := by
+  ext n
+  simp [Evens, Odds]
+  exact em (Even n)
 
 
 
@@ -49,7 +59,7 @@ example : Evens ∪ Odds = univ := by sorry
 example : s ∩ t = {x | x ∈ s ∧ x ∈ t} := by rfl
 example : s ∪ t = {x | x ∈ s ∨ x ∈ t} := by rfl
 example : s \ t = {x | x ∈ s ∧ x ∉ t} := by rfl
-example : sᶜ = {x | x ∉ s} := by rfl
+example : sᶜ = {x : α | x ∉ s} := by rfl
 example : (∅ : Set α) = {x | False} := by rfl
 example : (univ : Set α) = {x | True} := by rfl
 
@@ -58,13 +68,20 @@ example : (univ : Set α) = {x | True} := by rfl
 # Other operations on sets
 -/
 
-/- We can take power sets. -/
-example (s : Set α) : 𝒫 s = {t | t ⊆ s} := by rfl -- \powerset
+/- We can take power sets.
 
-/- What is the type of `𝒫 s`? -/
+-/
+example (s : Set α) : 𝒫 s = {t : Set α | t ⊆ s} := by rfl -- \powerset
+
+/- What is the type of `𝒫 s`?
+Answer: Set (Set α)
+compare with set theory:
+if `s ⊆ ℝ` then s ∈ 𝒫 ℝ and 𝒫 s ∈ 𝒫 (𝒫 ℝ)
+-/
 
 
-example (s t : Set α) : 𝒫 (s ∩ t) = 𝒫 s ∩ 𝒫 t := by sorry
+example (s t : Set α) : 𝒫 (s ∩ t) = 𝒫 s ∩ 𝒫 t := by
+  ext; simp
 
 
 
@@ -87,6 +104,15 @@ example (C : ι → Set α) : ⋂ i : ι, C i = {x : α | ∀ i : ι, x ∈ C i}
 -/
 example (s : Set ι) (C : ι → Set α) : ⋃ i ∈ s, C i = {x : α | ∃ i ∈ s, x ∈ C i} := by ext; simp
 
+
+/- Proof irrelevance: two proofs of the same proposition are equal. -/
+example (s : Set ι) (i : ι) (h h₂ : i ∈ s) : h = h₂ := by
+  rfl
+
+example (s : Set ι) (C : ι → Set α) :
+  ⋃ i : ι, ⋃ h : i ∈ s, C i = {x : α | ∃ i : ι, i ∈ s ∧ x ∈ C i} := by ext; simp
+
+
 example (s : Set ι) (C : ι → Set α) : ⋂ i ∈ s, C i = {x : α | ∀ i ∈ s, x ∈ C i} := by ext; simp
 
 /-
@@ -103,7 +129,10 @@ example (𝓒 : Set (Set α)) : ⋃₀ 𝓒 = ⋃ c ∈ 𝓒, c := by ext; simp
 
 
 
-example (C : ι → Set α) (s : Set α) : s ∩ (⋃ i, C i) = ⋃ i, (C i ∩ s) := by sorry
+example (C : ι → Set α) (s : Set α) : s ∩ (⋃ i, C i) = ⋃ i, (C i ∩ s) := by
+  ext x
+  simp
+  rw [@and_comm]
 
 
 /- We can take images and preimages of sets.
@@ -113,10 +142,25 @@ example (C : ι → Set α) (s : Set α) : s ∩ (⋃ i, C i) = ⋃ i, (C i ∩ 
 
 example (f : α → β) (s : Set β) : f ⁻¹' s = { x : α | f x ∈ s } := by rfl
 
-example (f : α → β) (s : Set α) : f '' s = { y : β | ∃ x ∈ s, f x = y } := by rfl
+/- f '' s can also written as { f x | x ∈ s} -/
+example (f : α → β) (s : Set α) : { f x | x ∈ s} = { y : β | ∃ x ∈ s, f x = y } := by rfl
 
 
-example {s : Set α} {t : Set β} {f : α → β} : f '' s ⊆ t ↔ s ⊆ f ⁻¹' t := by sorry
+example {s : Set α} {t : Set β} {f : α → β} : f '' s ⊆ t ↔ s ⊆ f ⁻¹' t := by
+  constructor
+  · intro h x hx
+    simp
+    apply h
+    exact mem_image_of_mem f hx
+  · intro h y hy
+    -- rw [mem_image] at hx
+    obtain ⟨x, hx, rfl⟩ := hy
+    -- subst y
+    -- rw [← hxy]
+    specialize h hx
+    simp at h
+    exact h
+
 
 /-
 If you have a hypothesis `h : y = t` or `h : t = y`,
@@ -145,7 +189,11 @@ open Pointwise
 example (s t : Set ℝ) : s + t = {x : ℝ | ∃ a b, a ∈ s ∧ b ∈ t ∧ a + b = x } := by rfl
 example (s t : Set ℝ) : -s = {x : ℝ | -x ∈ s } := by rfl
 
-example : ({1, 3, 5} : Set ℝ) + {0, 10} = {1, 3, 5, 11, 13, 15} := by sorry
+example : ({1, 3, 5} : Set ℝ) + {0, 10} = {1, 3, 5, 11, 13, 15} := by
+  ext x
+  simp [mem_add]
+  norm_num
+  tauto
 
 
 
@@ -186,15 +234,21 @@ variable (f : α → β)
 #check Classical.choose_spec
 open Classical
 
-def conditionalInverse (y : β) (h : ∃ x, f x = y) : α :=
-  sorry
+def conditionalInverse (y : β) (h : ∃ x : α, f x = y) :
+   α :=
+  Classical.choose h
 
-lemma invFun_spec (y : β) (h : ∃ x, f x = y) : f (conditionalInverse f y h) = y := sorry
+lemma invFun_spec (y : β) (h : ∃ x, f x = y) :
+    f (conditionalInverse f y h) = y :=
+  Classical.choose_spec h
 
 /- We can now define the function by cases on whether it lies in the range of `f` or not. -/
 
+variable [Inhabited α]
 def inverse (f : α → β) (y : β) : α :=
-  sorry
+  if h : ∃ x : α, f x = y then
+    conditionalInverse f y h else
+    default
 
 local notation "g" => inverse f -- let's call this function `g`
 
@@ -202,10 +256,21 @@ local notation "g" => inverse f -- let's call this function `g`
 /- We can now prove that `g` is a right-inverse if `f` is surjective
 and a left-inverse if `f` is injective.
 We use the `ext` tactic to show that two functions are equal. -/
-example (hf : Surjective f) : f ∘ g = id := by sorry
+example (hf : Surjective f) : f ∘ g = id := by
+  ext y
+  simp
+  obtain ⟨x, rfl⟩ := hf y
+  simp [inverse, invFun_spec]
 
-example (hf : Injective f) : g ∘ f = id := by sorry
 
+example (hf : Injective f) : g ∘ f = id := by
+  ext x
+  simp [inverse]
+  have h : ∀ x y : α, f x = f y ↔ x = y
+  · intro x y
+    exact hf.eq_iff
+  apply hf
+  simp [invFun_spec]
 
 end Inverse
 
