@@ -1,4 +1,4 @@
-import Mathlib.Tactic
+import LeanCourse.Attr
 
 -- don't edit this file!
 
@@ -292,6 +292,21 @@ example (p : (Nat → Nat) × (Nat → Nat)) : p.1 22 = p.2 37 → True := by si
 
 end ProdProjNotation
 
+section Simp
+
+open Lean Parser Category Elab Tactic
+syntax (name := strongSimpSyntax) "strong_simp " (config)? (discharger)? ("only ")?
+  (" [" withoutPosition((simpStar <|> simpErase <|> simpLemma),*) "]")? (location)? : tactic
+
+macro_rules
+| `(tactic| strong_simp $[[$s:simpLemma,* ]]? $[$loc:location]?) => do
+  if s.isSome then
+    `(tactic|simp (discharger := field_simp_discharge) $[[$s:simpLemma,*, *, strong_simp]]?
+      $[$loc:location]?) else
+    `(tactic|simp (discharger := field_simp_discharge) [*, strong_simp] $[$loc:location]?)
+
+end Simp
+
 namespace Nat
 open Lean Elab Term Meta
 
@@ -352,6 +367,8 @@ lemma pow_self_ne_zero (n : ℕ) : n ^ n ≠ 0 := by
 open Real
 
 attribute [simp] div_left_inj' neg_eq_self_iff eq_neg_self_iff sqrt_eq_zero'
+
+attribute [strong_simp] sub_eq_add_neg sub_eq_zero add_neg_eq_zero
 
 
 end ExtraLemmas
