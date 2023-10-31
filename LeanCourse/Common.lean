@@ -322,6 +322,24 @@ def elabIdentFactorial : TermElab := fun stx expectedType? =>
 
 attribute [scoped term_elab ident] elabIdentFactorial
 
+attribute [eliminator] Nat.recAux
+
+@[elab_as_elim]
+def two_step_induction {P : ℕ → Sort u} (zero : P 0) (one : P 1)
+    (step : ∀ (k : ℕ), (IH0 : P k) → (IH1 : P (k + 1)) → P (k + 2)) (n : ℕ) :
+    P n := by
+  induction n using Nat.strongRec with
+  | ind n ih =>
+    rcases n with _|n
+    · exact zero
+    rcases n with _|n
+    · exact one
+    apply step
+    · apply ih; linarith
+    · apply ih; linarith
+
+
+
 end Nat
 
 section ExtraLemmas
@@ -330,6 +348,10 @@ lemma pow_self_ne_zero (n : ℕ) : n ^ n ≠ 0 := by
   by_cases hn : n = 0
   · simp [hn]
   · positivity
+
+open Real
+
+attribute [simp] div_left_inj' neg_eq_self_iff eq_neg_self_iff sqrt_eq_zero'
 
 
 end ExtraLemmas
