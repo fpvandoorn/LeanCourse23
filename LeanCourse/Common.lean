@@ -351,7 +351,7 @@ lemma pow_self_ne_zero (n : ℕ) : n ^ n ≠ 0 := by
 
 open Real
 
-attribute [simp] div_left_inj' neg_eq_self_iff eq_neg_self_iff sqrt_eq_zero'
+attribute [simp] div_left_inj' neg_eq_self_iff eq_neg_self_iff sqrt_eq_zero' Int.ModEq.rfl
 
 
 end ExtraLemmas
