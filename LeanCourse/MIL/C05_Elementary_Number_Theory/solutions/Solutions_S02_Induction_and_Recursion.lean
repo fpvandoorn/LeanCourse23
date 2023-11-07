@@ -29,7 +29,7 @@ theorem sum_sqr (n : ℕ) : (∑ i in range (n + 1), i ^ 2) = n * (n + 1) * (2 *
   apply Nat.div_eq_of_eq_mul_right (by norm_num : 0 < 6)
   induction' n with n ih
   · simp
-  rw [Finset.sum_range_succ, mul_add 6, ← ih, Nat.succ_eq_add_one]
+  rw [Finset.sum_range_succ, mul_add 6, ← ih]
   ring
 
 end

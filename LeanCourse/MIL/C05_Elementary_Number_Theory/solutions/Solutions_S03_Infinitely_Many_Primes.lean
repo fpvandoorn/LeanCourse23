@@ -8,7 +8,7 @@ namespace C05S03
 
 theorem two_le {m : ℕ} (h0 : m ≠ 0) (h1 : m ≠ 1) : 2 ≤ m := by
   cases m; contradiction
-  case succ m =>
+  case succ m hm =>
     cases m; contradiction
     repeat' apply Nat.succ_le_succ
     apply zero_le
