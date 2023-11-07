@@ -30,7 +30,7 @@ Note: To get this repository, you will need to download Lean's mathematical libr
 
 * Run `cd LeanCourse23`
 
-* Run `lake exe cache get`
+* Run `lake exe cache get!`
   * On Windows, if you get an error that starts with `curl: (35) schannel: next InitializeSecurityContext failed` it is probably your antivirus program that doesn't like that we're downloading many files. The easiest solution is to temporarily disable your antivirus program.
 
 * Launch VS Code, either through your application menu or by typing
@@ -50,6 +50,12 @@ Note: To get this repository, you will need to download Lean's mathematical libr
 ### Get new exercises
 
 If you have already followed the steps above, and want to get the latest exercises, open a terminal in your local copy of this repository (e.g. `cd LeanCourse23`) and then run `git pull`. This gives you the new exercises.
+
+**Update Nov 7**: I updated the version of mathlib used in this project. This time, after running `git pull` do the following:
+* Close VSCode (if you have it open)
+* In your terminal, in the `LeanCourse23` folder, run `lake exe cache get!` (or `~/.elan/bin/lake exe cache get!` if `lake` cannot be found).
+* Wait until the command finishes with downloading and decompressing. If you get an error, run it again.
+* Now you can reopen VSCode and Lean should work again.
 
 ## Temporary ways to use Lean
 
@@ -77,7 +83,7 @@ and installs Lean and Mathlib.
 It then presents you with a VS Code window, running in a virtual
 copy of the repository.
 You can update the repository by opening a terminal in the browser
-and typing `git pull` followed by `lake exe cache get` as above.
+and typing `git pull` followed by `lake exe cache get!` as above.
 
 Gitpod gives you 50 free hours every month.
 When you are done working, choose `Stop workspace` from the menu on the left.

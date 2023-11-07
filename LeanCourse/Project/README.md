@@ -24,7 +24,9 @@ Since a project likely consists of more than 1 file, it will be useful to publis
 * `fetch` is similar to `pull`, but it only downloads the new changes to your git history, but doesn't actually incorporate the changes
 * VSCode uses the word `sync` to mean `pull` + `push`.
 * A `fork` is your own remote copy of the repository on `github.com` (something like `github.com/<YourUsername>/LeanCourse23`). You cannot write to the main repository (`github.com/fpvandoorn/LeanCourse23`)
-* If two people both make independent commits to a repository, you can `merge` the commits to create a new commit that has both changes. If both commits make a change to the same (or adjacent) lines of a file, then you will get a `merge conflict` which means you have to decide how to merge these two changes (I will not cover that here).
+* If two people both make independent commits to a repository, you can `merge` the commits to create a new commit that has both changes.
+* If both commits make a change to the same (or adjacent) lines of a file, then you will get a `merge conflict` which means you have to decide how to merge these two changes.
+  - *If you get a merge conflict*: this means that you modified a file that I also modified. `git` should tell you which file(s) have a conflict. The easiest way to solve this is to duplicate (copy/paste) the file(s) with a merge conflict (to have a version with your local changes), and then in the VSCode Source Control tab right-click the file(s) and press `Discard changes`.
 
 ## Git Instructions
 
