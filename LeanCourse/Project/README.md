@@ -46,7 +46,7 @@ We will be using git via the interface on VSCode. You can also do it from the co
 * if needed, sign in to Github
 * Press `Authorize git-ecosystem`
 * You get the message that you don't have permission to push. Press `Create Fork`.
-* You should now see your changes at `github.com/<YourUsername>/LeanCourse23`
+* You should now see your changes at `github.com/<YourUsername>/LeanCourse23`.
 
 ### Pushing Later Commits
 
