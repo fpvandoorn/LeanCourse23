@@ -35,6 +35,11 @@ We will be using git via the interface on VSCode. You can also do it from the co
 ### Getting started
 
 * Create an account on `github.com`
+* On the command line, run the following two commands, with your name and email substituted in:
+```
+git config --global user.name "Your Name"
+git config --global user.email "youremail@yourdomain.com"
+```
 * In VSCode, open this file and add your name and your Uni-ID at the top.
 * Save all your open files
 * Click on the `Source Control` button (left bar, likely the third button from the top).
