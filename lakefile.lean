@@ -6,7 +6,7 @@ package «leanCourse» {
 }
 
 require mathlib from git
-  "https://github.com/leanprover-community/mathlib4.git"@"2b8dea43f8493550f0b20b7a4ec73287de62ba51"
+  "https://github.com/leanprover-community/mathlib4.git"@"v4.2.0"
 
 @[default_target]
 lean_lib «LeanCourse» {
