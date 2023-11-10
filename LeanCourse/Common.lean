@@ -48,7 +48,7 @@ attribute [scoped term_elab ident] elabIdentFactorial
 attribute [eliminator] Nat.recAux
 
 @[elab_as_elim]
-def two_step_induction {P : ℕ → Sort u} (zero : P 0) (one : P 1)
+def two_step_induction {P : ℕ → Sort*} (zero : P 0) (one : P 1)
     (step : ∀ (k : ℕ), (IH0 : P k) → (IH1 : P (k + 1)) → P (k + 2)) (n : ℕ) :
     P n := by
   induction n using Nat.strongRec with

@@ -290,13 +290,14 @@ example (r : R) (f : Π i, M i) (i₀ : ι) (x : M i₀) :
 
 end product
 
-example (b : Basis ι R M) : M ≃ₗ[R] ι →₀ R := b.repr
+example {ι : Type*} (b : Basis ι R M) : M ≃ₗ[R] ι →₀ R := b.repr
 
 example {ι : Type*} {v : ι → M} (hli : LinearIndependent R v)
     (hsp : ⊤ ≤ Submodule.span R (Set.range v)) : Basis ι R M := by sorry
 
 end LinearAlgebra
 
+variable {R M : Type*}
 
 
 /- # Exercises -/
@@ -326,7 +327,7 @@ example {R M : Type*} [Ring R] [AddCommGroup M] [Module R M] [CharP R 2] (m : M)
 
 section Frobenius
 
-variable (p : ℕ) [hp : Fact p.Prime] (K : Type*) [Field K] [CharP K p]
+variable (p : ℕ) [hp : Fact p.Prime] (K : Type*) [Field K] [CharP K p] {x : K}
 /- Let's define the Frobenius morphism. You can use lemmas from the library -/
 def frobeniusMorphism : K →+* K :=
   { toFun := fun x ↦ x^p

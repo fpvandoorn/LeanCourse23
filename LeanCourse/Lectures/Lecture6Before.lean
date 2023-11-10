@@ -2,6 +2,8 @@ import LeanCourse.Common
 open Set Function Real
 noncomputable section
 set_option linter.unusedVariables false
+variable {ι L : Type*}
+
 
 
 /- # Today: Sets (continued) and functions

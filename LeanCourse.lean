@@ -1,5 +1,3 @@
-import LeanCourse.Assignments.Assignment1
-import LeanCourse.Assignments.Assignment2
 import LeanCourse.Assignments.Assignment3
 import LeanCourse.Assignments.Assignment4
 import LeanCourse.Assignments.Solutions.Solutions1

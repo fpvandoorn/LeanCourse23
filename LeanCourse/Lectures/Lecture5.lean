@@ -180,7 +180,7 @@ In Lean, all sets have to be sets of elements from a specific type.
 #check Set ℕ
 #check Set ℝ
 
-variable {α β ι : Type*} (x : α) (s t : Set α)
+variable {α β ι : Type*} (x : α) (s t u : Set α)
 
 #check x ∈ s       -- \in or \mem
 #check x ∉ s       -- \notin

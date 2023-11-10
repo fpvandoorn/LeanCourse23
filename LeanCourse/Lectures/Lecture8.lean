@@ -3,7 +3,7 @@ open BigOperators Finset Function Real
 noncomputable section
 set_option linter.unusedVariables false
 local macro_rules | `($x ^ $y) => `(HPow.hPow $x $y)
-
+variable {n : ℕ}
 
 
 /- # Today: Structures and Classes
@@ -491,7 +491,7 @@ def diff (x y : PosReal) : ℝ := x - y
 -/
 structure PointedType where
   carrier : Type*
-  pt : X
+  pt : carrier
 
 instance : CoeSort PointedType Type* := ⟨fun α ↦ α.carrier⟩
 
