@@ -6,7 +6,6 @@ import LeanCourse.Assignments.Solutions.Solutions1
 import LeanCourse.Assignments.Solutions.Solutions2
 import LeanCourse.Common
 import LeanCourse.Extra
-import LeanCourse.FixPow
 import LeanCourse.Lectures.Lecture1
 import LeanCourse.Lectures.Lecture2
 import LeanCourse.Lectures.Lecture3after
