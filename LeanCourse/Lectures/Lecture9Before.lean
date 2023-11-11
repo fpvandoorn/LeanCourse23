@@ -59,7 +59,7 @@ def diff (x y : PosReal) : ℝ := x - y
 -/
 structure PointedType where
   carrier : Type*
-  pt : X
+  pt : carrier
 
 instance : CoeSort PointedType Type* := ⟨fun α ↦ α.carrier⟩
 

@@ -41,7 +41,7 @@ lemma my_lemma {a b c : ℝ} (h : a + b = a + c) : b = c :=
 /- # Orders -/
 
 section Real
-variable (a b c d x y z : ℝ)
+variable (a b c d e x y z : ℝ)
 
 #check (le_refl : ∀ a : ℝ, a ≤ a)
 #check (le_trans : a ≤ b → b ≤ c → a ≤ c)

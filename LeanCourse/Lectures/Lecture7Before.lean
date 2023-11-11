@@ -3,7 +3,7 @@ open Set Function Real
 noncomputable section
 set_option linter.unusedVariables false
 local macro_rules | `($x ^ $y) => `(HPow.hPow $x $y)
-
+variable {n : ℕ}
 
 /- # Today: Numbers and induction
 

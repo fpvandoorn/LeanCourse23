@@ -9,9 +9,7 @@ local macro_rules | `($x ^ $y) => `(HPow.hPow $x $y)
 
 /- # Today: Abstract algebra
 
-We cover section 8.2 from Mathematics in Lean and a bit of field theory and linear algebra.
-Chapter 7 covers some of the design decisions for algebraic structures.
-I recommend that you read through it, but I won't cover it in detail in class. -/
+We cover section 8.2 from Mathematics in Lean and a bit of field theory and linear algebra. -/
 
 /-
 Last time we discussed projects and group theory
@@ -40,18 +38,22 @@ example {R : Type*} [Semiring R] (x y : R) : (x + y)^2 = x^2 + y^2 + x*y + y*x :
 example {R : Type*} [CommRing R] (x y : R) (n : ℕ) :
   (x + y) ^ n = ∑ m in Finset.range (n + 1), x ^ m * y ^ (n - m) * Nat.choose n m := by rw?
 
+example {R : Type*} [Ring R] (x : R) : Prop := IsUnit x
 
 /- We can write `Rˣ` for the units of a ring (i.e. the elements with a multiplicative inverse). -/
 example (x : ℤˣ) : x = 1 ∨ x = -1 := Int.units_eq_one_or x
 
-example {R : Type*} [Ring R] (x : Rˣ) : Group Rˣ := by infer_instance
+example {R : Type*} [Ring R] : Group Rˣ := by
+  infer_instance
 
 /- We also have a predicate `IsUnit` stating whether an element of the ring is a unit. -/
 example {R : Type*} [CommRing R] (x : R) : IsUnit x ↔ ∃ y, x * y = 1 := by exact?
 
 /- We write ring homomorphisms with `→+*`. -/
 example {R S : Type*} [Ring R] [Ring S] (f : R →+* S) (x y : R) :
-    f (x + y) = f x + f y ∧ f (x * y) = f x * f y := ⟨f.map_add x y, f.map_mul x y⟩
+    f (x + y) = f x + f y ∧ f (x * y) = f x * f y ∧
+    f 1 = 1 ∧ f 0 = 0 :=
+  ⟨f.map_add x y, f.map_mul x y, f.map_one, f.map_zero⟩
 
 /- A subring is a subset of `R` that is an additive subgroup and multiplicative submonoid.
 
@@ -68,7 +70,13 @@ section Ring
 variable {R : Type*} [CommRing R] {I J : Ideal R}
 
 /- Ideals are additive subgroups that are closed under arbitary multiplication. -/
-example {x y : R} (hy : y ∈ I) : x * y ∈ I := I.mul_mem_left x hy
+example {x y : R} (hy : y ∈ I) : x * y ∈ I :=
+  I.mul_mem_left x hy
+
+example {x y : R} (hx : x ∈ I) : x * y ∈ I :=
+  I.mul_mem_right y hx
+
+
 
 /- There are various operations on ideals. -/
 
@@ -79,10 +87,9 @@ example {x : R} : x ∈ I + J ↔ ∃ a ∈ I, ∃ b ∈ J, a + b = x := by
 
 example : I * J ≤ I ⊓ J := mul_le_inf
 
-example {x : R} : x ∈ I * J ↔ ∃ a ∈ I, ∃ b ∈ J, a * b = x := by sorry
-
 example : CompleteLattice (Ideal R) := by infer_instance
-example : Semiring (Ideal R) := by infer_instance
+example : Semiring (Ideal R) := by
+  infer_instance
 
 
 
@@ -130,19 +137,20 @@ example {ι : Type*} [Fintype ι] (a : ι → ℕ) (ha : ∀ i j, i ≠ j → (a
 
 
 
-example {R : Type*} [CommRing R] [IsPrincipalIdealRing R] (I : Ideal R) :
+example {R : Type*} [CommRing R] [IsDomain R]
+  [IsPrincipalIdealRing R] (I : Ideal R) :
     ∃ x : R, I = span {x} := by exact?
 
 
 
 
 
-
+#where
 variable {A : Type*} [Semiring A] [Algebra R A]
 
 /- # Algebras and polynomials -/
 
-/- An *algebra* (or assiciative unital algebra) `A` over a ring `R`
+/- An *algebra* (or associative unital algebra) `A` over a ring `R`
 is a semiring `A` equipped with a ring homomorphism `R →+* A`
 whose image commutes with every element of `A`. -/
 example : R →+* A := algebraMap R A
@@ -158,18 +166,25 @@ then `[Algebra F E]` states exactly that `E` is a field extension of `F`. -/
 
 /- An important algebra is the polynomial ring `R[X]` or `Polynomial R`. -/
 
+example : Algebra R R[X] := by infer_instance
+
 example {R : Type*} [CommRing R] : R[X] := X
 
-example {R : Type*} [CommRing R] (r : R) : R[X] := X - C r
+example {R : Type*} [CommRing R] (r : R) : R[X] :=
+  X - C r
 
 /- `C` is registered as a ring homomorphism. -/
 #check C
 
-example {R : Type*} [CommRing R] (r : R) : (X + C r) * (X - C r) = X^2 - C (r ^ 2) := by sorry
+example {R : Type*} [CommRing R] (r : R) :
+    (X + C r) * (X - C r) = X^2 - C (r ^ 2) := by
+  ring
+  rw [C.map_pow]
 
 /- You can access coefficients using `Polynomial.coeff` -/
 
-example {R : Type*} [CommRing R] (r : R) : (C r).coeff 0 = r := by simp
+example {R : Type*} [CommRing R] (r : R) :
+  (C r).coeff 0 = r := by simp
 
 example {R : Type*} [CommRing R] : (X^2 + 2*X + C 3 : R[X]).coeff 1 = 2 := by simp
 
@@ -177,11 +192,23 @@ example {R : Type*} [CommRing R] : (X^2 + 2*X + C 3 : R[X]).coeff 1 = 2 := by si
 #check natDegree (R := R)
 #check degree (R := R)
 
+example [IsDomain R] (p q : R[X]) :
+    degree (p * q) = degree p + degree q := by
+  exact degree_mul
+
+example [IsDomain R] (p q : R[X]) (hp : p ≠ 0)
+    (hq : q ≠ 0) :
+    natDegree (p * q) = natDegree p + natDegree q := by
+  refine natDegree_mul hp hq
+
+
 /- `WithBot ℕ` can be seen as `ℕ ∪ {-∞}`, except that `-∞` is denoted `⊥`. -/
 
 /- We can evaluate polynomials using `Polynomial.eval`. -/
 #check eval (R := R)
 example {R : Type*} [CommRing R] (P : R[X]) (x : R) : R := P.eval x
+
+example {R : Type*} [CommRing R] (P : R[X]) (x : R) : R := eval x P
 
 example {R : Type*} [CommRing R] (r : R) : (X - C r).eval r = 0 := by simp
 
@@ -248,7 +275,14 @@ variable {N N' : Type*} [AddCommGroup N] [Module R N] [AddCommGroup N'] [Module 
 
 #check M →ₗ[R] N
 
-example (f : M →ₗ[R] N) (g : M →ₗ[R] N') : M →ₗ[R] N × N' := sorry
+example (f : M →ₗ[R] N) (g : M →ₗ[R] N') :
+  M →ₗ[R] N × N' where
+    toFun := fun m ↦ (f m, g m)
+    map_add' := by
+      simp
+    map_smul' := by
+      dsimp
+      simp
 
 example : M × N →ₗ[R] M := sorry
 
@@ -269,6 +303,7 @@ example {m n : Type*} (M : Matrix m n M) : Mᵀᵀ = M := rfl
 /- Bilinear maps are represented as an iterated linear maps. -/
 example (f : M →ₗ[R] N →ₗ[R] N') : N →ₗ[R] M →ₗ[R] N' := f.flip
 
+
 /- We use `ι → ℝ` to denote `ℝ^n` if `ι` has `n` elements. -/
 example {ι : Type*} : Module ℝ (ι → ℝ) := by infer_instance
 
@@ -279,26 +314,33 @@ variable {ι : Type*} {M : ι → Type*} [∀ i, AddCommGroup (M i)] [∀ i, Mod
 /- We can also take a (infinitary) product of modules. -/
 example : Module R (Π i, M i) := by infer_instance
 
-example (f : Π i, M i) (i : ι) : M i := sorry
+example (f : Π i, M i) (i : ι) : M i := f i
 
-example (f : Π i, M i) (i₀ : ι) (x : M i₀) : Π i, M i := sorry
+example (f : Π i, M i) (i₀ : ι) (x : M i₀) :
+  Π i, M i := fun j : ι ↦ Function.update f i₀ x j
 
-example (r : R) (f : Π i, M i) (i : ι) : (r • f) i = r • f i := sorry
+example (r : R) (f : Π i, M i) (i : ι) :
+  (r • f) i = r • f i := by simp
 
 example (r : R) (f : Π i, M i) (i₀ : ι) (x : M i₀) :
-    r • Function.update f i₀ x = Function.update (r • f) i₀ (r • x) := by sorry
+    r • Function.update f i₀ x = Function.update (r • f) i₀ (r • x) := by
+  ext j
+  simp
+  by_cases h : j = i₀
+  · subst h
+    simp
+  · simp [h]
 
 end product
 
 example {ι : Type*} (b : Basis ι R M) : M ≃ₗ[R] ι →₀ R := b.repr
 
 example {ι : Type*} {v : ι → M} (hli : LinearIndependent R v)
-    (hsp : ⊤ ≤ Submodule.span R (Set.range v)) : Basis ι R M := by sorry
+    (hsp : ⊤ ≤ Submodule.span R (Set.range v)) : Basis ι R M := by exact?
 
 end LinearAlgebra
 
 variable {R M : Type*}
-
 
 /- # Exercises -/
 
@@ -327,7 +369,7 @@ example {R M : Type*} [Ring R] [AddCommGroup M] [Module R M] [CharP R 2] (m : M)
 
 section Frobenius
 
-variable (p : ℕ) [hp : Fact p.Prime] (K : Type*) [Field K] [CharP K p] {x : K}
+variable (p : ℕ) [hp : Fact p.Prime] (K : Type*) [Field K] [CharP K p] (x : K)
 /- Let's define the Frobenius morphism. You can use lemmas from the library -/
 def frobeniusMorphism : K →+* K :=
   { toFun := fun x ↦ x^p

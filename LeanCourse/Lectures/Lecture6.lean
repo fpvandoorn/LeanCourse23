@@ -2,6 +2,7 @@ import LeanCourse.Common
 open Set Function Real
 noncomputable section
 set_option linter.unusedVariables false
+variable {ι L : Type*}
 
 
 /- # Today: Sets (continued) and functions
@@ -22,7 +23,7 @@ You can prove that two sets are equal by applying `subset_antisymm` or using the
 variable {α β : Type*} (x : α) (s t : Set α)
 
 example : (fun x : ℝ ↦ x ^ 2) 3 = 10 := by
-  simp only
+  simp only; sorry
 
 /- We saw last time that we can prove that two sets are equal using `ext`. -/
 example : s ∩ t = t ∩ s := by
