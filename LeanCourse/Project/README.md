@@ -103,6 +103,8 @@ Some suggested topics:
 
 * In **algebraic topology** define Eilenberg-Maclane spaces and prove that they have the correct homotopy groups.
 
+* In **analysis**: the Fourier transform and convolution have been defined in mathlib. Show that the Fourier transform of a convolution is the product of Fourier transforms.
+
 * In **complex analysis** define the winding number of a closed curve. You can either use topological path lifting, or its analytic definition (Cauchy's integral formula exists in mathlib).
 
 * In **complex analysis** define the Laurent series and show that it converges on an annulus.
@@ -111,4 +113,20 @@ Some suggested topics:
 
 * In **differential geometry** define smooth `n`-forms and de Rham cohomology.
 
+* In **Galois theory** define constructible numbers in ℂ and prove that they form the smallest subfield of ℂ closed under square roots. If time permits, prove some famous impossibility results (trisection of an angle / doubling of a cube). Example reference: [David Cox, Galois Theory, Ch 10.1].
+
 * In **game theory**, define games, pure and mixed strategies, and Nash equilibria. Assuming Brouwer's fixed point theorem, prove that there always exists a Nash equilibrium of mixed strategies. (Brouwer's fixed point theorem is [proven in Lean](https://github.com/Shamrock-Frost/BrouwerFixedPoint/blob/master/src/brouwer_fixed_point.lean#L274), though not yet incorporated in mathlib.)
+
+* In **general topology** define some spaces that are typically used for counterexamples, such as the Hawaiian earring, the long line, wild knots or the horned sphere.
+
+* In **group theory**, classify all groups of order 8, or if you want a challenge, of order 16.
+
+* In **hyperbolic geometry** define the Poincaré model of hyperbolic geometry - either the disc model or the half-plane model (or another model altogether), and show that is satisfies most of Euclid's axioms for geometry, but that the parallel postulate fails.
+
+* In **model theory**: complete types of a language are defined in mathlib. Prove for a countable theory that if there are uncountably many types with `n` free variables, then there are continuum many. Or harder: show that in this case that `T` has continuum many non-isomorphic models.
+
+* In **number theory** solve some diophantine equations. Show that there are no nonzero integer solutions to `x^4-y^4=z^2`. Find all solutions to `x^2+y^2=z^3` and to `|2^k-3^l|=1`.
+
+* In **planar geometry** many results are missing. Choose one: the theorem of Ceva's theorem, Desargues's theorem, Feuerbach's theorem, Menelaus's theorem, Morley's trisecor theorem.
+
+* In **set theory** define club sets, stationary sets and prove Fodor's lemma.
