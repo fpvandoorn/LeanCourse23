@@ -65,6 +65,19 @@ def two_step_induction {P : ℕ → Sort*} (zero : P 0) (one : P 1)
 
 end Nat
 
+namespace Filter
+variable {α β : Type*} {m : α → β}
+@[gcongr]
+theorem map_le_map {F G : Filter α} (h : F ≤ G) : map m F ≤ map m G :=
+  map_mono h
+
+@[gcongr]
+theorem comap_le_comap {F G : Filter β} (h : F ≤ G) : comap m F ≤ comap m G :=
+  comap_mono h
+end Filter
+
+attribute [gcongr] interior_mono closure_mono
+
 section ExtraLemmas
 
 lemma pow_self_ne_zero (n : ℕ) : n ^ n ≠ 0 := by
