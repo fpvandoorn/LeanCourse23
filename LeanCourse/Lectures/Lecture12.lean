@@ -264,7 +264,7 @@ example (x : ℝ) :
 
 /-
 The following exercise is a possible first step to prove the following statement:
-If you have a continuous injective function `ℝ → ℝ` then `f` is monotone or antitone.
+Every continuous injective function `ℝ → ℝ` is monotone or antitone.
 
 Prove this exercise by contradiction using the intermediate value theorem. -/
 example {f : ℝ → ℝ} (hf : Continuous f) (h2f : Injective f) {a b x : ℝ}
