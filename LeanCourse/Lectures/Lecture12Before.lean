@@ -52,18 +52,29 @@ example (x : ℝ) : DifferentiableAt ℝ sin x :=
 
 example (x : ℝ) :
     HasDerivAt (fun x ↦ Real.cos x + Real.sin x)
-    (Real.cos x - Real.sin x) x := by sorry
-
-
-
-
+    (Real.cos x - Real.sin x) x := by
+    rw[sub_eq_neg_add]
+    apply HasDerivAt.add
+    apply?
+    apply?
 
 
 /- We can also take the derivative of functions that take values in a
 (normed) vector space. -/
 
 example (x : ℝ) : deriv (fun x ↦ ((Real.cos x) ^ 2, (Real.sin x) ^ 2)) x =
-    (- 2 * Real.cos x * Real.sin x, 2 * Real.sin x * Real.cos x) := by sorry
+    (- 2 * Real.cos x * Real.sin x, 2 * Real.sin x * Real.cos x) := by
+    apply HasDerivAt.deriv
+    refine HasDerivAt.prod ?h.hf₁ ?h.hf₂
+    suffices : HasDerivAt (fun x ↦ cos x ^ 2) (2 *  (cos x) ^ 1 * (- sin x)) x
+    simp at this
+    simp
+    exact this
+    apply HasDerivAt.pow
+    exact hasDerivAt_cos x
+    convert HasDerivAt.pow 2 ? _ using 3
+    simp
+    exact hasDerivAt_sin x
 
 /-
 Lean has the following names for intervals
@@ -197,6 +208,7 @@ example : f =o[l] g ↔ ∀ C > 0, IsBigOWith C l f g :=
 end Asymptotics
 
 /- We define the *Fréchet derivative* of any function between normed spaces. -/
+/- I'm not sure how to prouns that - van Dorn -/
 
 example (f : E → F) (f' : E →L[𝕜] F) (x₀ : E) :
     HasFDerivAt f f' x₀ ↔
@@ -213,7 +225,10 @@ example (f : E → F) (f' : E →L[𝕜] F) (x₀ : E) (hff' : HasFDerivAt f f' 
 
 variable {f g : E → F} {n : ℕ∞}
 example (hf : ContDiff 𝕜 n f) (hg : ContDiff 𝕜 n g) :
-    ContDiff 𝕜 n (fun x ↦ (f x, 2 • f x + g x)) := by sorry
+    ContDiff 𝕜 n (fun x ↦ (f x, 2 • f x + g x)) := by
+    refine ContDiff.prod hf ?hg --apply?
+    refine ContDiff.add ?hg.hf hg --apply?
+    exact ContDiff.const_smul 2 hf --apply?
 
 example : ContDiff 𝕜 0 f ↔ Continuous f := contDiff_zero
 
@@ -229,13 +244,40 @@ end NormedSpace
 /- # Exercises -/
 
 example (x : ℝ) :
-    deriv (fun x ↦ Real.exp (x ^ 2)) x = 2 * x * Real.exp (x ^ 2) := by sorry
+    deriv (fun x ↦ Real.exp (x ^ 2)) x = 2 * x * Real.exp (x ^ 2) := by
+    suffices : HasDerivAt (fun x ↦ Real.exp (x ^ 2)) (rexp (x ^ 2) * (2 * x)) x
+    simp[mul_assoc, mul_comm, mul_left_comm]
+    refine HasDerivAt.exp ?this.hf
+    suffices : HasDerivAt (fun x ↦ x ^ 2) (2 * x ^ (2-1) * 1) x
+    simp at this
+    exact this
+    apply HasDerivAt.pow
+    apply hasDerivAt_id x
+
 
 /- If you have a continuous injective function `ℝ → ℝ` then `f` is monotone or antitone. This is a possible first step in proving that result.
 Prove this by contradiction using the intermediate value theorem. -/
 example {f : ℝ → ℝ} (hf : Continuous f) (h2f : Injective f) {a b x : ℝ}
-    (hab : a ≤ b) (h2ab : f a < f b) (hx : x ∈ Icc a b) : f a ≤ f x := by sorry
-
+    (hab : a ≤ b) (h2ab : f a < f b) (hx : x ∈ Icc a b) : f a ≤ f x := by
+    by_contra h
+    simp at h
+    have h3 : ∃ z ∈ Ioo x b, f z = f a := by
+      apply intermediate_value_Ioo
+      exact hx.2
+      exact Continuous.continuousOn hf
+      refine mem_Ioo.mpr ?_
+      constructor
+      exact h
+      exact h2ab
+    obtain ⟨z, hz, h3⟩ := h3
+    have h4 : z ≠ a := by
+      have : a < z := by calc
+        a ≤ x := by exact hx.1
+        x < z := by exact hz.1
+      exact ne_of_gt this
+    have h5 : z = a := by
+      exact h2f (h2f (congrArg f h3))
+    contradiction
 
 variable {𝕜 : Type*} [NontriviallyNormedField 𝕜]
   {E : Type*} [NormedAddCommGroup E] [NormedSpace 𝕜 E]
@@ -243,7 +285,8 @@ variable {𝕜 : Type*} [NontriviallyNormedField 𝕜]
 /- In this exercise you should combine the right lemmas from the library, in particular `IsBoundedBilinearMap.contDiff`. -/
 example (L : E →L[𝕜] E →L[𝕜] E) (f g : E → E) (hf : ContDiff 𝕜 n f)
     (hg : ContDiff 𝕜 n g) :
-    ContDiff 𝕜 n (fun z : E × E ↦ L (f z.1) (g z.2)) := by sorry
+    ContDiff 𝕜 n (fun z : E × E ↦ L (f z.1) (g z.2)) := by
+    sorry
 
 
 /- If you finish these exercises, continue with the exercises of lecture 11. -/
