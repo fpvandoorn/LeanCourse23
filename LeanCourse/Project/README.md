@@ -101,7 +101,7 @@ Some suggested topics:
 * In **algebraic topology** define CW-complexes and cellular (co)homology.
   Prove some abstract properties of CW-complexes, or compute the cellular (co)homology of some concrete CW-complexes (e.g. spheres).
 
-* In **algebraic topology** define Eilenberg-Maclane spaces and prove that they have the correct homotopy groups.
+* [taken] In **algebraic topology** prove the adjunction between suspensions and loop spaces.
 
 * In **analysis**: the Fourier transform and convolution have been defined in mathlib. Show that the Fourier transform of a convolution is the product of Fourier transforms.
 
@@ -113,7 +113,7 @@ Some suggested topics:
 
 * In **differential geometry** define smooth `n`-forms and de Rham cohomology.
 
-* In **Galois theory** define constructible numbers in ℂ and prove that they form the smallest subfield of ℂ closed under square roots. If time permits, prove some famous impossibility results (trisection of an angle / doubling of a cube). Example reference: [David Cox, Galois Theory, Ch 10.1].
+* [taken] In **Galois theory** define constructible numbers in ℂ and prove that they form the smallest subfield of ℂ closed under square roots. If time permits, prove some famous impossibility results (trisection of an angle / doubling of a cube). Example reference: [David Cox, Galois Theory, Ch 10.1].
 
 * [taken] In **game theory**, define games, pure and mixed strategies, and Nash equilibria. Assuming Brouwer's fixed point theorem, prove that there always exists a Nash equilibrium of mixed strategies. (Brouwer's fixed point theorem is [proven in Lean](https://github.com/Shamrock-Frost/BrouwerFixedPoint/blob/master/src/brouwer_fixed_point.lean#L274), though not yet incorporated in mathlib.)
 
@@ -129,4 +129,4 @@ Some suggested topics:
 
 * In **planar geometry** many results are missing. Choose one: the theorem of Ceva's theorem, Desargues's theorem, Feuerbach's theorem, Menelaus's theorem, Morley's trisecor theorem.
 
-* In **set theory** define club sets, stationary sets and prove Fodor's lemma.
+* [taken] In **set theory** define club sets, stationary sets and prove Fodor's lemma.
