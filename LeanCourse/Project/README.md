@@ -109,17 +109,17 @@ Some suggested topics:
 
 * In **complex analysis** define the Laurent series and show that it converges on an annulus.
 
-* In **differential geometry** define a Riemannian metric and define basic notions of Riemannian geometry.
+* [taken] In **differential geometry** define a Riemannian metric and define basic notions of Riemannian geometry.
 
 * In **differential geometry** define smooth `n`-forms and de Rham cohomology.
 
 * In **Galois theory** define constructible numbers in ℂ and prove that they form the smallest subfield of ℂ closed under square roots. If time permits, prove some famous impossibility results (trisection of an angle / doubling of a cube). Example reference: [David Cox, Galois Theory, Ch 10.1].
 
-* In **game theory**, define games, pure and mixed strategies, and Nash equilibria. Assuming Brouwer's fixed point theorem, prove that there always exists a Nash equilibrium of mixed strategies. (Brouwer's fixed point theorem is [proven in Lean](https://github.com/Shamrock-Frost/BrouwerFixedPoint/blob/master/src/brouwer_fixed_point.lean#L274), though not yet incorporated in mathlib.)
+* [taken] In **game theory**, define games, pure and mixed strategies, and Nash equilibria. Assuming Brouwer's fixed point theorem, prove that there always exists a Nash equilibrium of mixed strategies. (Brouwer's fixed point theorem is [proven in Lean](https://github.com/Shamrock-Frost/BrouwerFixedPoint/blob/master/src/brouwer_fixed_point.lean#L274), though not yet incorporated in mathlib.)
 
 * In **general topology** define some spaces that are typically used for counterexamples, such as the Hawaiian earring, the long line, wild knots or the horned sphere.
 
-* In **group theory**, classify all groups of order 8, or if you want a challenge, of order 16.
+* [taken] In **group theory**, classify all groups of order 8, or if you want a challenge, of order 16.
 
 * In **hyperbolic geometry** define the Poincaré model of hyperbolic geometry - either the disc model or the half-plane model (or another model altogether), and show that is satisfies most of Euclid's axioms for geometry, but that the parallel postulate fails.
 
