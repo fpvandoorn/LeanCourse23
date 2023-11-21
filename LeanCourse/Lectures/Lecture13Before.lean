@@ -134,10 +134,7 @@ example : BorelSpace ℝ := by infer_instance
 Remark: `rw` will not rewrite inside a binder (like `fun x`, `∃ x`, `∫ x` or `∀ᶠ x`). Use
 `simp_rw`, `simp only` or `unfold` instead. -/
 example : ∀ᵐ x : ℝ, Irrational x := by
-  -- sorry
-  simp only [Irrational]
-  refine Countable.ae_not_mem ?h volume
-  exact countable_range Rat.cast
+  sorry
 
 
 
@@ -151,9 +148,7 @@ example : ∀ᵐ x : ℝ, Irrational x := by
 #check Integrable
 
 example : ¬ Integrable (fun x ↦ 1 : ℝ → ℝ) := by
-  -- sorry
-  rw [integrable_const_iff]
-  simp
+  sorry
 
 
 
