@@ -1,0 +1,217 @@
+\documentclass{../Project/TemplateExercise}
+
+\renewcommand{\SheetName}{Project overview}
+\renewcommand{\LectureName}{Lean}
+\renewcommand{\mName}{Ludwig Monnerjahn}
+
+\begin{document}
+\section{Structure of the Project}
+
+
+\section{The Construction Problems}
+\textbf{Doubling the cube}, also known as the Delian problem, is an ancient geometric problem.
+Given the edge of a cube, the problem requires the construction of the edge of a second cube whose volume is double that of the first,
+using only a ruler and compass.
+\newline
+\textbf{Angle trisection} is the construction, using only a ruler and compass, of an angle that is one third of a given arbitrary angle.
+
+\subsection{Definitions}
+First we need to define what construction using a ruler and compass means.
+We will use $\IC$ as plane of drawing and $\mathcal{M} \subset \IC$ as the set of constructed points.
+\begin{definition}
+    $\mathcal{G(M)}$ is the set of all real straight lines $\mathcal{G}$, with $| \mathcal{G} \cap \mathcal{M} |\ge 2$. \newline
+    $\mathcal{C(M)}$ is the set of all circles in $\IC$, with center in $\mathcal{M}$ and radius of $\mathcal{C}$ is the distence of two points in $\mathcal{M}$.
+\end{definition}
+
+\begin{definition}
+    We define operation that can be used to constructed new Points.
+    \begin{enumerate}
+        \item $(ZL 1)$ is the cut of two lines in $\mathcal{G(M)}$.
+        \item $(ZL 2)$ is the cut of a line in $\mathcal{G(M)}$ and a circle in $\mathcal{C(M)}$.
+        \item $(ZL 3)$ is the cut of two circles in $\mathcal{C(M)}$.
+    \end{enumerate}
+    $ZL(\mathcal{M})$ is the set $\mathcal{M}$ combeined with of all points that can be constructed using the operations $(ZL 1)$, $(ZL 2)$ and $(ZL 3)$.
+\end{definition}
+
+\begin{definition}
+    We define inductively the the chain
+    \begin{equation*}
+        \mathcal{M}_0 \subseteq \mathcal{M}_1 \subseteq \mathcal{M}_2 \subseteq \dots
+    \end{equation*}
+    with $\mathcal{M}_0 = \mathcal{M}$ and $\mathcal{M}_{n+1} = ZL(\mathcal{M}_n)$.\newline
+    And call $\mathcal{M}_{\infty} = \bigcup_{n \in \IN} \mathcal{M}_n$ the set of all constructable points.
+\end{definition}
+
+\subsection{Problem simplification}
+Let $\mathcal{M} = \{a, b\}$. Let $r := \|a - b\|$ be the distance between $a$ and $b$. Then a Qube with edge $r$ has volume $r^3$.
+There is a cube with volume $2r^3$ if and only if $\sqrt[3]{2} \in \mathcal{M}_{\infty}$.
+\begin{problem}
+    Let $\mathcal{M} = \{0,1\}$ Is $\sqrt[3]{2} \in \mathcal{M}_{\infty}$?
+\end{problem}
+Let $\mathcal{M} = \{a, b, c\}$ with $a, b, c$ not on a line. Let $\alpha := \angle abc$.
+Then $\alpha$ can be trisected if and only if $\exp(\textbf{i}\alpha / 3) \in \mathcal{M}_{\infty}$.
+\begin{problem}
+    Let $\mathcal{M} = \{0,1,\exp(\textbf{i} \alpha)\}$ Is $\exp(\textbf{i} \alpha/3) \in \mathcal{M}_{\infty}$?
+\end{problem}
+
+
+\section{Properties of the the set of constructable points}
+\begin{definition}
+    The degree of $x$ over $K$ is
+    \begin{equation*}
+        [x:K] :=\text{degree}(\mu_{x,K})
+        \end{equation*}
+        with $\mu_{x,K}$ the minimal polynomial of $x$ over $K$. \newline
+    The degree of $L/K$ is the dimension of $L$ as a $K$-vector space and is denoted by
+    \begin{equation*}
+        [L:K].
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}
+\label{thm:degree_of_simple_field_extension}
+    Let $L/K$ be a simple field extension with $L = K(x)$. Then
+    \begin{equation*}
+        [L:K] = [x:K].
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    TODO %TODO check if in Mathlib
+\end{proof}
+\begin{definition}
+    Let $\mathcal(M)\subseteq\IC$ with $0,1 \in \mathcal{M}$
+    \begin{equation*}
+        K_0 := \IQ(\mathcal{M}\cup \overline{\mathcal{M}})
+    \end{equation*}
+    with $\overline{\mathcal{M}} := \{ \overline{z} = x - \textbf{i}y \mid z = x+\textbf{i}y  \in \mathcal{M} \}$.
+\end{definition}
+%\begin{remark}
+%    We know that $K_0$ is a field and $\mathcal{M} \subseteq K_0\subseteq \mathcal{M}_{\infty} \subseteq \IC$.
+%\end{remark}
+\begin{theorem}
+\label{thm:degree_of_constructable_points}
+    Let $\mathcal{M}\subseteq\IC$ with $0,1 \in \mathcal{M}$ and $K_0 := \IQ(\mathcal{M}\cup \overline{\mathcal{M}})$.
+    Then for $z \in \mathcal{M}_{\infty}$ is equvalent:
+    \begin{enumerate}
+        \item $z \in \mathcal{M}_{\infty}$
+        \item There is an intermediate field $L$ of $\IC/K_0$ with $z \in L$, such that $L$
+        TODO %TODO Check if equvalent to "Es gibt einen Zwischenk ̈orper L von C/K0 mit z 2 L, so dass L aus K0 durch sukzessive Adjunktion von Quadratwurzeln entsteht."
+        \item There is an $n \in \IN$ and a chain \begin{equation*}
+            K_0 = L_0 \subset L_1 \subset \dots \subset L_n \subset \IC
+        \end{equation*}
+        of subfields of $\IC$ such that $z \in L_n$ and $[L_i:L_{i-1}] =2$ for $1\le i\le n$ %$L_{i+1}$ is obtained from $L_i$ by adjoining a square root.
+    \end{enumerate}
+    In this case $[K_0(z):K_0] = 2^m$ for some $0 \le m \le n$.
+\end{theorem}
+\begin{proof}
+   TODO %TODO
+\end{proof}
+
+\section{Doubling the cube with a compass and straightedge}
+The Problem of doubling the cube is equivalent to the question if $\sqrt[3]{2} \in \mathcal{M}_{\infty}$.
+Since $\mathcal{M} = \{0,1\}$, we know that $K_0 = \IQ$. Therfore we need examine if $[\IQ(\sqrt[3]{2}):\IQ] = 2^m$.
+\begin{lemma}
+\label{thm:third_root_two}
+    $\sqrt[3]{2}$ is not a rational number.
+\end{lemma}
+
+\begin{proof}
+    TODO %TODO check if in Mathlib
+\end{proof}
+\begin{lemma}
+\label{thm:zeta3_not_real}
+    $\zeta_3 \sqrt[3]{2}$ and $\zeta_3^2 \sqrt[3]{2}$ are not real numbers.
+\end{lemma}
+\begin{proof}
+    TODO %TODO check if in Mathlib
+\end{proof}
+\begin{theorem}
+    $P := X^3 - 2$ is irreducible over $\IQ$.
+\label{thm:irreducible_over_Q}
+\end{theorem}
+\begin{proof}
+    Since $\IQ$ is $a$ subfield of $\IC [X]$, we know that
+    \begin{equation*}
+        X^3 - 2 = (X - \sqrt[3]{2})(X -\zeta_3 \sqrt[3]{2})(X -\zeta_3^2 \sqrt[3]{2})
+    \end{equation*}
+    Suppose $P$ is Rational, then
+    \begin{equation*}
+        X^3 - 2 = (X - a)(X^2 + bX + c)\text{, with } a, b, c \in \IQ
+    \end{equation*}
+    In particular it has a zero in $\IQ$, so there is a rational number $a$ such that $a^3 = 2$.\newline
+    But we have shown in \ref{thm:zeta3_not_real} that $\zeta_3 \sqrt[3]{2}$ and $\zeta_3^2 \sqrt[3]{2}$ are not real numbern and in \ref{thm:third_root_two} $\sqrt[3]{2}$ is not rational.
+    So $P$ is irreducible over $\IQ$.
+\end{proof}
+\begin{theorem}
+    The cube can't be doubled using a compass and straightedge.
+\end{theorem}
+\begin{proof}
+    We know that $K_0 = \IQ$ and the problem is equivalent to $\sqrt[3]{2} \in \mathcal{M}_{\infty}$.\newline
+    \ref{thm:degree_of_constructable_points} tells us that it is sufficient to show that $[\IQ(\sqrt[3]{2}):\IQ] \ne 2^m$ for some $0 \le m $.
+    Since $\sqrt[3]{2}$ is not a rational number, we know that $[\IQ(\sqrt[3]{2}):\IQ] \ge 2$.
+    TODO %TODO check if in Mathlib and last sentence is needed
+    \newline
+    We know that $P := X^3 - 2$ is irreducible over $\IQ$ \ref{thm:irreducible_over_Q} and $P(\sqrt[3]{2}) = 0$, therefore $P = \mu_{\sqrt[3]{2},\IQ}$.
+    So with \ref{thm:degree_of_simple_field_extension} we know $[\IQ(\sqrt[3]{2}):\IQ] = 3$ and $[\IQ(\sqrt[3]{2}):\IQ] \ne 2^m$ for some $0 \le m $.
+\end{proof}
+\section{Angle trisection}
+Let $\mathcal{M} = \{0,1,\exp(\textbf{i} \alpha)\}$ with $\alpha \in (0,2\pi)$. Therfore we know that
+\begin{equation*}
+    K_0 = \IQ(\mathcal{M}\cup \overline{\mathcal{M}}) = \IQ(\exp(\textbf{i} \alpha))
+\end{equation*}
+We need to examine if $\exp(\textbf{i} \alpha/3) \in \mathcal{M}_{\infty}$. Since \ref{thm:degree_of_constructable_points}
+that for an postive answer it is nessary that $[\IQ(\exp(\textbf{i} \alpha/3)):\IQ] = 2^m$ for some $0 \le m $. \newline
+Since $\exp(\textbf{i} \alpha/3)$ is zero of $X^3 - \exp(\textbf{i} \alpha)$, we know that $[\IQ(\exp(\textbf{i} \alpha/3)):\IQ] \le 3$.
+Therfore it is equivalent
+\begin{enumerate}
+    \item $\exp(\textbf{i} \alpha/3) \notin \mathcal{M}_{\infty}$
+    \item $\text{degree}(\mu_{\exp(\textbf{i} \alpha/3),\IQ}) = 3$
+    \item $X^3 - \exp(\textbf{i} \alpha/3)$ is irreducible over $\IQ$
+\end{enumerate}
+
+\begin{lemma}
+\label{lem:root_in_M_inf}
+    If $r\in \mathcal{M}_{n}$, then $\sqrt{r} \in \mathcal{M}_{\infty}$.
+\end{lemma}
+\begin{proof}
+    TODO %TODO Add Proof and check if in Mathlib
+\end{proof}
+\begin{lemma}[Rational root theorem]
+
+\end{lemma}
+\begin{theorem}
+    The angle $\pi / 3 = 60^{\circ}$ can't be trisected using a compass and straightedge.
+\end{theorem}
+\begin{proof}
+    We know
+    \begin{equation*}
+        \exp(\textbf{i}x) = \cos(x) + \textbf{i} \sin(x) \quad \forall x \in \IR
+    \end{equation*}
+    For $\alpha = \pi / 3$ we get
+    \begin{equation*}
+        \cos(\alpha) = \frac{1}{2}\qquad \text{and}\qquad \sin(\alpha) = \frac{\sqrt{3}}{2}
+    \end{equation*}
+    Since we know that $\sqrt{r} \in \mathcal{M}_{\infty}$ for $r \in \mathcal{M}_n$ \ref*{lem:root_in_M_inf}
+    we see that $\exp(\textbf{i} \alpha) \in \mathcal{M}_{\infty}$ for $\mathcal{M} = \{0,1\}$. \newline
+    So we will work with $K_0 = \IQ$. \newline
+    TODO \newline %TODO Complete Proof
+    We now $\cos(\alpha/3)$ is zero of
+    \begin{equation*}
+        f := 8 X^3 - 6 X - 1 \in \IQ[X]
+    \end{equation*}
+    Suppose $f$ is reducible over $\IQ$, then $f$ has a rational zero $a$. According to the rational root theorem, \ref*{}
+        TODO %TODO Add Proof
+     we know that every zero is in
+     \begin{equation*}
+        \{ \pm 1, \pm \frac{1}{2}, \pm \frac{1}{4}, \pm \frac{1}{8} \}
+     \end{equation*}
+     Man can check that none of these numbers is a zero of $f$.
+     TODO %TODO Add Proof
+     So $f$ is irreducible over $\IQ$ and $\cos(\alpha/3) \notin \mathcal{M}_{\infty}$.
+     Therefore
+        \begin{equation*}
+            \exp(\textbf{i} \alpha/3) \notin \mathcal{M}_{\infty}
+        \end{equation*}
+    So the angle $\pi / 3 = 60^{\circ}$ can't be trisected using a compass and straightedge.
+\end{proof}
+\end{document}
