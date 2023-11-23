@@ -38,8 +38,10 @@ lemma exercise6_1 {ι α : Type*} {p : ι → Prop} {q : Prop} {a b : α}
     (∀ᶠ i in L, p i ↔ q) ↔
     Tendsto (fun i ↦ if p i then a else b) L (if q then F else G) := by
   have hab : a ≠ b
-  · sorry
+  · exact haF hbF
   rw [tendsto_iff_eventually]
+  apply Iff.intro
+  sorry
   sorry
 
 /- To be more concrete, we can use the previous lemma to prove the following.
@@ -69,9 +71,22 @@ If you want to prove this by using the intermediate value theorem only once,
 then use `intermediate_value_uIcc`.
 `uIcc a b` is the unordered interval `[min a b, max a b]`.
 Useful lemmas: `uIcc_of_le` and `mem_uIcc`. -/
+
 lemma exercise6_3 {f : α → α} (hf : Continuous f) (h2f : Injective f) {a b x : α}
     (hab : a ≤ b) (h2ab : f a < f b) (hx : a ≤ x) : f a ≤ f x := by
   sorry
+
+
+
+/-   apply monotone_iff_forall_lt.mpr
+  have h' :  a ≤ b → f a < f b := by intro _; apply h2ab
+  by_contra h
+  simp at h
+  obtain ⟨y, z, hyz⟩ :=  h
+  have h1 : f z < f y := by sorry
+  have h2 : f y < f z := by rw[← h'] -/
+
+
 
 /- Now use this and the intermediate value theorem again
 to prove that `f` is at least monotone on `[a, ∞)`. -/
