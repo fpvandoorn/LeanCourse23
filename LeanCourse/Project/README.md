@@ -155,7 +155,7 @@ Some suggested topics:
 
 * [taken] In **algebraic topology** prove the adjunction between suspensions and loop spaces.
 
-* In **analysis**: the Fourier transform and convolution have been defined in mathlib. Show that the Fourier transform of a convolution is the product of Fourier transforms.
+* [taken] In **analysis**: the Fourier transform and convolution have been defined in mathlib. Show that the Fourier transform of a convolution is the product of Fourier transforms.
 
 * In **complex analysis** define the winding number of a closed curve. You can either use topological path lifting, or its analytic definition (Cauchy's integral formula exists in mathlib).
 
