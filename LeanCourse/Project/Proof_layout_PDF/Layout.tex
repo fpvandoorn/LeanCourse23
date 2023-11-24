@@ -1,4 +1,4 @@
-\documentclass{../Project/TemplateExercise}
+\documentclass{../Proof_layout_PDF/TemplateExercise}
 
 \renewcommand{\SheetName}{Project overview}
 \renewcommand{\LectureName}{Lean}
@@ -8,7 +8,7 @@
 \section{Structure of the Project}
 
 
-\section{The Construction Problems}
+\section{The TemplateExercise Problems}
 \textbf{Doubling the cube}, also known as the Delian problem, is an ancient geometric problem.
 Given the edge of a cube, the problem requires the construction of the edge of a second cube whose volume is double that of the first,
 using only a ruler and compass.
@@ -19,7 +19,7 @@ using only a ruler and compass.
 First we need to define what construction using a ruler and compass means.
 We will use $\IC$ as plane of drawing and $\mathcal{M} \subset \IC$ as the set of constructed points.
 \begin{definition}
-    $\mathcal{G(M)}$ is the set of all real straight lines $\mathcal{G}$, with $| \mathcal{G} \cap \mathcal{M} |\ge 2$. \newline
+    $\mathcal{G(M)}$ is the set of all real straight lines $\mathcal{G}$, with $| \mathcal{G} \cap \mathcal{M} |\ge 2$.\newline
     $\mathcal{C(M)}$ is the set of all circles in $\IC$, with center in $\mathcal{M}$ and radius of $\mathcal{C}$ is the distence of two points in $\mathcal{M}$.
 \end{definition}
 
@@ -27,8 +27,8 @@ We will use $\IC$ as plane of drawing and $\mathcal{M} \subset \IC$ as the set o
     We define operation that can be used to constructed new Points.
     \begin{enumerate}
         \item $(ZL 1)$ is the cut of two lines in $\mathcal{G(M)}$.
-        \item $(ZL 2)$ is the cut of a line in $\mathcal{G(M)}$ and a circle in $\mathcal{C(M)}$.
-        \item $(ZL 3)$ is the cut of two circles in $\mathcal{C(M)}$.
+        \item $(ZL 2)$ is the cut of a line in $\mathcal{G(M)}$ and a circle in $\mathcal{C(M)}$. \newline
+        \item $(ZL 3)$ is the cut of two circles in $\mathcal{C(M)}$.\newline
     \end{enumerate}
     $ZL(\mathcal{M})$ is the set $\mathcal{M}$ combeined with of all points that can be constructed using the operations $(ZL 1)$, $(ZL 2)$ and $(ZL 3)$.
 \end{definition}
@@ -40,6 +40,45 @@ We will use $\IC$ as plane of drawing and $\mathcal{M} \subset \IC$ as the set o
     \end{equation*}
     with $\mathcal{M}_0 = \mathcal{M}$ and $\mathcal{M}_{n+1} = ZL(\mathcal{M}_n)$.\newline
     And call $\mathcal{M}_{\infty} = \bigcup_{n \in \IN} \mathcal{M}_n$ the set of all constructable points.
+\end{definition}
+
+\subsection{Definitions in Lean}
+\begin{definition}
+    Let \textbf{Point} be an $z\in\IC$. For points $z_i$ we write $x_i$ and $y_i$ for $z_i = x_i +\mathbf{i}y_i$.
+\end{definition}
+\begin{definition}
+    Let \textbf{$\mathcal{G}$} be a set of Points depending on Point $z_1$ and $z_2$.
+    \begin{equation*}
+        \mathcal{G}_{z_1 ,z_2} := \{\lambda z_1 + (1 - \lambda) z_2 | \lambda \in \IR  \}
+    \end{equation*}
+    Let \textbf{$\mathcal{C}$} be a set of Points depending on Point $z_1$ and $r:=\|z_2-z_3\|$.
+    \begin{equation*}
+        \begin{aligned}
+            \mathcal{C}_{z_1,r} :=& \{ x +\textbf{i} y\in \IC | (x - x_1)^2 - (\textbf{i} y-\textbf{i} y_1)^2 =r^2  \ \}\\
+            =& \{ x +\textbf{i} y\in \IC | (x - x_1)^2 + (y-y_1)^2 =r^2  \ \}
+        \end{aligned}
+        \end{equation*}
+\end{definition}
+
+\begin{definition}
+The rules (ZL1), (ZL2) and (ZL3) define the Sets of Points:
+\begin{enumerate}
+    \item Z\_one\_M $\{z\in \IC | \exists z_1,\dots,z_4\in\mathcal{M}: z \in \mathcal{G}_{z_1,z_2} \cap \mathcal{G}_{z_3,z_4} \text{ and } z_3 \ne z_1 \ne z_4\}$
+    \item Z\_two\_M $\{z\in \IC | \exists z_1,\dots,z_5\in\mathcal{M}: z \in \mathcal{G}_{z_1,z_2} \cap \mathcal{C}_{z_3,\|z_4-z_5\|} \text{ and } z_4\ne z_5\}$
+    \item Z\_three\_M $\{z\in \IC | \exists z_1,\dots,z_6\in\mathcal{M}: z \in \mathcal{C}_{z_1,\|z_2-z_3\|}  \cap \mathcal{C}_{z_4,\|z_5-z_6\|} \text{ and } z_1\ne z_4, z_2\ne z_3,z_5\ne z_6\}$
+\end{enumerate}
+Therefore $\mathcal{Z(M)}$ is definde as $ \mathcal{Z(M)}:= \mathcal{M} \cup \text{Z\_one\_M}\cup\text{Z\_two\_M}\cup\text{Z\_three\_M}$.
+\end{definition}
+
+\begin{definition}
+    We define inductively the the chain
+    \begin{equation*}
+         M_I :  \IN \mapsto \mathcal{M} := \begin{cases}
+            \mathcal{M} & \text{if } n = 0 \\
+            \mathcal{Z}(M_I(n-1)) & \text{if } n > 0
+        \end{cases}
+    \end{equation*}
+    And the set of all constructable points as $\mathcal{M}_{\infty} = \bigcup_{n \in \IN} \mathcal{M}_n$.
 \end{definition}
 
 \subsection{Problem simplification}
