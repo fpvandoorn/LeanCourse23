@@ -38,7 +38,7 @@ During class I already discussed searching using the name (using autocomplete or
 
 ### Asking for help
 
-* Make sure to ask me for help during class, office hours or by email.
+* If you have trouble with anything, make sure to ask me for help during class or office hours.
 * If you are stuck on something, try replacing it by `sorry` and move on to the next part until you can ask about it.
 
 * You are allowed to ask any AI for help. I do not necessarily recommend using them,
