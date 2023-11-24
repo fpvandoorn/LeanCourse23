@@ -13,6 +13,58 @@ During the second half of the course you will work on a project in any area of m
 Since a project likely consists of more than 1 file, it will be useful to publish this as a repository on Github.
 
 
+## Formalization Tips
+
+Here are some tips for your project.
+
+### Read relevant mathlib files
+
+* Look for related work in the mathlib documentation pages: https://leanprover-community.github.io/mathlib4_docs/.
+  For some results, the source code will be easier to read.
+* Step through some of the proofs in Lean.
+  You can open the file locally by going to e.g.
+  `LeanCourse23/lake-packages/mathlib/Mathlib/Algebra/Group/Basic.lean`
+  (note that the `lake-packages` folder is hidden in VSCode by default).
+
+### Searching
+
+During class I already discussed searching using the name (using autocomplete or the mathlib docs), or the statement (using `apply?` or `rw?`). Additional options:
+
+* Search Mathlib using natural language: https://www.moogle.ai/
+* Search Mathlib using precise syntax: https://loogle.lean-lang.org/
+* Searching on Github directly: https://github.com/leanprover-community/mathlib4
+  - This can be useful when searching for a mathematical theorems using its name,
+    since the mathlib docs search doesn't search through the documentation of a definition or theorem (only its name).
+
+### Asking for help
+
+* Make sure to ask me for help during class, office hours or by email.
+* If you are stuck on something, try replacing it by `sorry` and move on to the next part until you can ask about it.
+
+* You are allowed to ask any AI for help. I do not necessarily recommend using them,
+  often their suggestions are not very helpful.
+  * ChatGPT knows some Lean, but it bad at proofs and often suggests outdated Lean 3 syntax
+  * Github copilot is occasionally useful
+
+### Writing definitions
+
+It is useful to find a definition that already exists in mathlib and is similar to what you want.
+Then you can mimic the structure of that definition.
+This can also be useful in deciding whether to use `def`, `structure` or `class`.
+
+## Presentations
+
+During January, you should give a presentation on your project during class.
+The presentation should take 20-25 minutes, plus 5 minutes for questions.
+
+During your presentation, you can discuss the following (but you don't have to treat every point)
+* Explain the mathematical content of your formalization
+* Show some of the formalized work (for example if you have found interesting way to state a definition, or the statement of the theorem you proved).
+* What went easily when formalizing? What was hard? Were any tools or tactics particularly useful, or did you miss a specific tactic?
+* You do not have to finish your project before your presentation, so you can talk about the ongoing work.
+
+Projects are due February 9. On November 28 I will schedule the presentations.
+
 ## Git Terminology
 
 * `git` is a version control system. It will store changes you made, and will allow you to revert to previous versions of your files.
