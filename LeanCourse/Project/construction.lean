@@ -2,6 +2,7 @@ import LeanCourse.Common
 import Mathlib.FieldTheory.IntermediateField
 import Mathlib.FieldTheory.Galois
 import Mathlib.FieldTheory.Adjoin
+import Mathlib.RingTheory.Polynomial.RationalRoot
 
 set_option autoImplicit true
 
@@ -59,8 +60,11 @@ lemma Classfication_z_in_M_inf (M : Set Point) (z : Point) :
    := sorry
 
 
-lemma K_zero_eq_ration (M : Set Point) : M = {⟨0,0⟩ ,⟨1,0⟩} → (K_zero M) = ℚ := sorry
-
+lemma K_zero_eq_ration (M : Set Point) : M = {⟨0,0⟩ ,⟨1,0⟩} → (K_zero M) = ℚ := by
+  intro h
+  unfold K_zero
+  simp[h]
+  sorry
 
 section constructionDoubleCube
 
@@ -98,3 +102,34 @@ lemma third_root_of_two_not_in_M_inf (M := {⟨0,0⟩ ,⟨1,0⟩}) :
     | succ m hm => rw[pow_add]; simp; sorry
   --contradiction
   sorry
+
+section constructionAngleTrisection
+
+noncomputable def H : Polynomial ℚ := 8 * X ^ 3 - 6 * X - 1
+noncomputable def H' : Polynomial ℚ := X ^ 3 - (6/8) * X - (1/8)
+noncomputable def H'' : Polynomial ℚ :=  1/8
+
+lemma H_irred : Irreducible H := by
+  by_contra h
+  simp only [H] at h
+  apply
+  sorry
+
+lemma unit_of_H' : IsUnit H'' := by
+  refine isUnit_of_dvd_one ?h
+  have h : (1 : ℚ[X]) = (8 : ℚ[X]) * ((1/8) : ℚ[X]) := by
+    ring_nf
+    symm
+    --rw[div_mul_cancel  (by norm_num)]
+    sorry
+    --apply div_mul_cancel
+  exact Dvd.intro_left 8 (id h.symm)
+
+
+lemma H'_irred : Irreducible H' := by
+  have h : H' = H''* H := by
+    simp[H,H',H'']
+    sorry
+  sorry  -- irreducible_units_mul
+
+variable (α := π/3)
