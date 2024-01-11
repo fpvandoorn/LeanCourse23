@@ -52,10 +52,9 @@ noncomputable def K_zero (M : Set Point) : IntermediateField ℚ  ℂ := Interme
 
 
 /- theorem Classfication_z_in_M_inf (M : Set Point) (z : Point) :
-  z ∈ M_inf M ↔
-  ∃ L : IntermediateField ℚ  ℂ ,  z ∈ L ↔
-  \ -/
-
+z ∈ M_inf M ↔
+∃ n : ℕ, n → L
+ -/
 lemma Classfication_z_in_M_inf_2m (M : Set Point) (z : Point) :
   z ∈ M_inf M ↔ ∃ m : ℕ , ((2  : ℕ) ^ m : WithBot ℕ) = Polynomial.degree (minpoly (K_zero M) z.x)
    := sorry
