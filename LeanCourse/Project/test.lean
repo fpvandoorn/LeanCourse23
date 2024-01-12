@@ -63,22 +63,39 @@ noncomputable def P' : (Polynomial ℚ) := X ^ 3 - 2 -- x^3 - 2
 lemma P_eqq : P = P' := by simp[P, P']; symm; apply Polynomial.X_pow_eq_monomial
 
 
-lemma P_irreducible : Irreducible P := by
+/- lemma P_irreducible : Irreducible P := by --! Uses X_pow_sub_C_irreducible_of_prime with is to new
+  rw[P_eqq]
+  apply X_pow_sub_C_irreducible_of_prime
+  . sorry -- 3 is prime
+  by_contra h
+  simp at h
+  obtain ⟨x,h⟩  := h
+  sorry -/
+
+lemma second_P_irreducible : Irreducible P := by -- X_pow_sub_C_irreducible_of_prime
   rw[Polynomial.Monic.irreducible_iff_natDegree']
   . simp
     constructor
     case left => sorry
     case right =>
+      intro f g hf hg hfg hdeg
+      by_contra h
+      have hp : natDegree P = 3 := by sorry
+      simp[hp] at h
+      have h1 : natDegree g = 1 := by sorry
+      have hr : ∃ (x : ℚ), Polynomial.IsRoot P x := by
+        rw[←hfg]
+        --use x
+        --rw[Polynomial.root_mul] --Polynomial.exists_root_of_degree_eq_one
+        sorry
       sorry
   rw[P_eqq]; rw[Polynomial.Monic.def]; apply monic_X_pow_sub_C; simp
-  --exact Polynomial.Monic.irreducible_iff_natDegree'
-  --exact Polynomial.Monic.irreducible_iff_irreducible_map_fraction_map
 
 lemma degree_third_root_of_two : Polynomial.degree (minpoly ℚ ((2 : ℝ) ^ (1/3))) = 3 := by
   have h: minpoly ℚ ((2 : ℝ) ^ (1/3)) = P := by
     symm
     apply minpoly.eq_of_irreducible_of_monic
-    case hp1 => exact P_irreducible
+    case hp1 => exact second_P_irreducible
     case hp2 =>
       simp[P]
       have h: ((2:ℝ) ^ (1/3:ℝ)) ^ 3 = 2 := by
