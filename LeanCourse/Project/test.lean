@@ -24,13 +24,29 @@ def M_inf (M : Set ℂ) : Set ℂ := ⋃ n : ℕ, M_I M n
 
 noncomputable def K_zero (M : Set ℂ) : IntermediateField ℚ  ℂ := IntermediateField.adjoin ℚ ({(z : ℂ)  | z ∈ M} ∪ {(z.re - z.im : ℂ)  | z ∈ M})
 
+lemma r_in_M_inf_sprt_r_in_M (M : Set ℂ) (r : ℂ) (h : r ∈ M_inf M) : (r^(1/2)) ∈ M_inf M := by
+  sorry
+
 theorem Classfication_z_in_M_inf (M : Set ℂ) (z : ℂ) :
 z ∈ M_inf M ↔
   ∃ (n : ℕ) (L : ℕ →  (IntermediateField ℚ ℂ)) (H : ∀ i,  Module (L i) (L (i + 1))),
-  z ∈ L n ∧  K_zero M = L 0 ∧ (∀ i < n, FiniteDimensional.finrank (L i) (L (i + 1)) = 2) := sorry
+  z ∈ L n ∧  K_zero M = L 0 ∧ (∀ i < n, FiniteDimensional.finrank (L i) (L (i + 1)) = 2) := by
+  constructor
+  case mp =>
+    intro h
+    sorry
+  case mpr => sorry
+
+
 
 lemma Classfication_z_in_M_inf_2m (M : Set ℂ) (z : ℂ) :
-  z ∈ M_inf M ↔ ∃ (m : ℕ) ,((2  : ℕ) ^ m : WithBot ℕ) = Polynomial.degree (minpoly (K_zero M) z) := sorry
+  z ∈ M_inf M ↔ ∃ (m : ℕ) ,((2  : ℕ) ^ m : WithBot ℕ) = Polynomial.degree (minpoly (K_zero M) z) := by
+  constructor
+  case mp =>
+    intro h
+    rw [Classfication_z_in_M_inf] at h
+    sorry
+  case mpr => sorry
 
 def is_complex_rational (z : ℂ) : Prop :=
   ∃ (q : ℚ), z.re = q ∧ z.im = 0
@@ -47,8 +63,16 @@ noncomputable def P' : (Polynomial ℚ) := X ^ 3 - 2 -- x^3 - 2
 lemma P_eqq : P = P' := by simp[P, P']; symm; apply Polynomial.X_pow_eq_monomial
 
 
-lemma P_irreducible : Irreducible P := by --! Use den_dvd_of_is_root as Rational root theorem
-  sorry
+lemma P_irreducible : Irreducible P := by
+  rw[Polynomial.Monic.irreducible_iff_natDegree']
+  . simp
+    constructor
+    case left => sorry
+    case right =>
+      sorry
+  rw[P_eqq]; rw[Polynomial.Monic.def]; apply monic_X_pow_sub_C; simp
+  --exact Polynomial.Monic.irreducible_iff_natDegree'
+  --exact Polynomial.Monic.irreducible_iff_irreducible_map_fraction_map
 
 lemma degree_third_root_of_two : Polynomial.degree (minpoly ℚ ((2 : ℝ) ^ (1/3))) = 3 := by
   have h: minpoly ℚ ((2 : ℝ) ^ (1/3)) = P := by
@@ -81,10 +105,35 @@ end constructionDoubleCube
 
 
 section constructionAngleTrisection
-noncomputable def H : Polynomial ℚ := monomial 3 8 - monomial 1 6 - 1 -- 8x^3 - 6x - 1
-noncomputable def H' : Polynomial ℚ := monomial 3 1 - monomial 1 6/8 - 1/8 -- x^3 - 6/8 x - 1/8
+/- noncomputable def H : Polynomial ℚ := monomial 3 8 - monomial 1 6 - 1 -- 8x^3 - 6x - 1
+noncomputable def H' : Polynomial ℚ := 8 * X ^ 3 - 6 * X - 1 -- 8x^3 - 6x - 1 -/
+noncomputable def H_monic : Polynomial ℚ := monomial 3 1 - monomial 1 6/8 - 1/8 -- x^3 - 6/8 x - 1/8
+noncomputable def H_monic' : Polynomial ℚ := X ^ 3 - 6/8 * X - 1/8 -- x^3 - 6/8 x - 1/8
 
-lemma H_irreducible : Irreducible H := sorry --! Use den_dvd_of_is_root as Rational root theorem
+lemma H_irreducible : Irreducible H_monic := sorry --! Use den_dvd_of_is_root as Rational root theorem
+
+lemma H_monic_eqq : H_monic = H_monic' := by simp[H_monic, H_monic']; sorry-- apply div_eqq_iff apply Polynomial.X_pow_eq_monomial
+
+lemma exp_pi_ninth : Polynomial.degree (minpoly ℚ (Complex.exp ((Real.pi/3)/3) : ℂ)) = 3:=
+  have h: minpoly ℚ ((2 : ℝ) ^ (1/3)) = H_monic := by
+    symm
+    apply minpoly.eq_of_irreducible_of_monic
+    case hp1 => exact H_irreducible
+    case hp2 =>
+      simp[P]
+      have h: ((2:ℝ) ^ (1/3:ℝ)) ^ 3 = 2 := by
+        rw [one_div]
+        change ((2:ℝ)  ^ (Nat.cast 3)⁻¹) ^ (3:ℝ) = _
+        --rw [Real.rpow_nat_inv_pow_nat (show 2 ≥ 0 by norm_num) (show 3 ≠ 0 by decide)] --TODO: Needs Mathlib update
+        sorry
+      --rw[← one_div, h] --TODO: Needs Mathlib update
+      sorry
+    case hp3 => rw[H_monic_eqq]; rw[Polynomial.Monic.def]; sorry -- apply monic_X_pow_sub_C; simp
+  sorry
+/-   rw[h, H_monic_eqq]
+  simp[H_monic']
+  apply Polynomial.degree_X_pow_sub_C
+  linarith -/
 
 lemma pi_third_not_in_M_inf (M := {⟨0,0⟩ ,⟨1,0⟩,  Complex.exp (Real.pi/3) }) :
   (Complex.exp ((Real.pi/3)/3) : ℂ) ∉ M_inf M := sorry

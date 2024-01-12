@@ -5,7 +5,6 @@
 \renewcommand{\mName}{Ludwig Monnerjahn}
 
 \begin{document}
-\section{Structure of the Project}
 
 
 \section{The TemplateExercise Problems}
@@ -115,7 +114,7 @@ Then $\alpha$ can be trisected if and only if $\exp(\textbf{i}\alpha / 3) \in \m
     \end{equation*}
 \end{theorem}
 \begin{proof}
-    TODO %TODO check if in Mathlib
+    In Mathlib: theorem IntermediateField.adjoin.finrank
 \end{proof}
 \begin{definition}
     Let $\mathcal(M)\subseteq\IC$ with $0,1 \in \mathcal{M}$
@@ -133,8 +132,8 @@ Then $\alpha$ can be trisected if and only if $\exp(\textbf{i}\alpha / 3) \in \m
     Then for $z \in \mathcal{M}_{\infty}$ is equvalent:
     \begin{enumerate}
         \item $z \in \mathcal{M}_{\infty}$
-        \item There is an intermediate field $L$ of $\IC/K_0$ with $z \in L$, such that $L$
-        TODO %TODO Check if equvalent to "Es gibt einen Zwischenk ̈orper L von C/K0 mit z 2 L, so dass L aus K0 durch sukzessive Adjunktion von Quadratwurzeln entsteht."
+        %\item There is an intermediate field $L$ of $\IC/K_0$ with $z \in L$, such that $L$
+        %TODO %TODO Check if equvalent to "Es gibt einen Zwischenk ̈orper L von C/K0 mit z 2 L, so dass L aus K0 durch sukzessive Adjunktion von Quadratwurzeln entsteht."
         \item There is an $n \in \IN$ and a chain \begin{equation*}
             K_0 = L_0 \subset L_1 \subset \dots \subset L_n \subset \IC
         \end{equation*}
@@ -149,21 +148,7 @@ Then $\alpha$ can be trisected if and only if $\exp(\textbf{i}\alpha / 3) \in \m
 \section{Doubling the cube with a compass and straightedge}
 The Problem of doubling the cube is equivalent to the question if $\sqrt[3]{2} \in \mathcal{M}_{\infty}$.
 Since $\mathcal{M} = \{0,1\}$, we know that $K_0 = \IQ$. Therfore we need examine if $[\IQ(\sqrt[3]{2}):\IQ] = 2^m$.
-\begin{lemma}
-\label{thm:third_root_two}
-    $\sqrt[3]{2}$ is not a rational number.
-\end{lemma}
 
-\begin{proof}
-    TODO %TODO check if in Mathlib
-\end{proof}
-\begin{lemma}
-\label{thm:zeta3_not_real}
-    $\zeta_3 \sqrt[3]{2}$ and $\zeta_3^2 \sqrt[3]{2}$ are not real numbers.
-\end{lemma}
-\begin{proof}
-    TODO %TODO check if in Mathlib
-\end{proof}
 \begin{theorem}
     $P := X^3 - 2$ is irreducible over $\IQ$.
 \label{thm:irreducible_over_Q}
