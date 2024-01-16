@@ -124,6 +124,15 @@ To get new changes, do the following:
 
 Note: After you have created a fork, `git pull` will likely not work anymore from the command line. You can still pull changes from the command line using `git pull upstream master`.
 
+### Latest Mathlib version
+
+If you want to update to the latest version of Mathlib, you can do this by merging your project into the branch `upstream/newversion`. In this case you have to also run `lake exe cache get!` again.
+
+Detailed instructions in VSCode:
+* Press the three dots icon at the top-right of the `source control` panel `... > Pull / Push > Fetch From All Remotes`
+* Then do `... > Branch > Merge branch > upstream/newversion`
+* Then run `lake exe cache get!` on the command line (you can do this now also within VSCode with `ctrl+shift+P`/`cmd+shift+P` and then start typing `Lean 4 Project: Fetch Mathlib Build Cache` and press enter).
+
 
 ### Command-line
 
