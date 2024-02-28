@@ -10,13 +10,14 @@
 
 \usepackage[textwidth=17cm, textheight=27cm]{geometry}
 \usepackage{booktabs, xspace}
-\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{amsmath,amsfonts,amssymb,longtable}
 
 \newcommand{\lean}[1]{{\tt #1}}
 \newcommand{\nv}{\textit{new\_name}\xspace}
 \newcommand{\nom}{\textit{name}\xspace}
 \newcommand{\expr}{\textit{expr}\xspace}
 \newcommand{\proposition}{\textit{proposition}\xspace}
+\newcommand{\type}{\textit{proposition}\xspace}
 \newcommand{\hyp}{\textit{hyp}\xspace}
 \setlength\parindent{0pt}
 
@@ -63,16 +64,19 @@ If a tactic is not recognized, write \lean{import Mathlib.Tactic} at the top of 
 \begin{center}
 \setlength\tabcolsep{5mm}
 \def\arraystretch{1.3}
-\begin{tabular}{@{}lp{113mm}@{}}
+\begin{longtable}{@{}lp{113mm}@{}}
   \toprule
   Tactic & Effect \\
   \midrule
+  &\textbf{Applying Lemmas}\\
   \lean{exact} \expr & prove the current goal exactly by \expr. \\
   \lean{apply} \expr & prove the current goal by applying \expr to some arguments. \\
   \lean{refine} \expr & like \lean{exact}, but \expr can contain sub-expressions \lean{?\_} that will be turned into new goals. \\
   \lean{convert} \expr & prove the goal by showing that it is equal to the type of \expr. \\
-  \lean{have h :} \proposition\ \lean{:=} \expr & add a new hypothesis \lean{h} of type \proposition. \\
-  \lean{have h :} \proposition & $\ldots$ also creates \proposition as a new goal.  \\
+  &\textbf{Adding hypotheses/data}\\
+  \lean{have h :} \proposition\ \lean{:=} \expr & add a new hypothesis \lean{h} of type \proposition. \textbf{Do not use for data!} \\
+  \lean{have h :} \proposition & $\ldots$ also creates \proposition as a new goal. \\
+  \lean{set x :} \type\ \lean{:=} \expr & add an abbreviation \lean{x} with value \expr. \\
   \lean{by\_cases h :} \proposition & create two goals, one where \lean{h} is the hypothesis that \proposition is true and one where \lean{h} is the hypothesis where it is false. \\
   \makecell[lt]{\lean{exfalso}} & replace the current goal by \lean{False}. \\
   \makecell[lt]{\lean{by\_contra h}} & proof by contradiction; adds the negation of the goal as hypothesis \lean{h}. \\
@@ -102,10 +106,11 @@ If a tactic is not recognized, write \lean{import Mathlib.Tactic} at the top of 
   \makecell[lt]{\lean{aesop}} & simplify the goal, and use various techniques to prove the goal. \\
   \makecell[lt]{\lean{tauto}} & prove logical tautologies. \\
   \bottomrule
-\end{tabular}
+\end{longtable}
 \mbox{}\\
 other useful tactics: \lean{induction}, \lean{ext}, \lean{positivity}, \lean{split\_ifs}, \lean{calc}, \lean{conv}, \lean{polyrith}, \lean{norm\_cast}, \lean{push\_cast}%, $\ldots$
 % honourable mentions: \lean{zify}, qify, lift
+% MISSING: let!, norm_num
 \end{center}
 
 \end{document}

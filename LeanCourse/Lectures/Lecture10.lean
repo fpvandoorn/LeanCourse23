@@ -29,7 +29,7 @@ example : Field ℚ := by infer_instance
 
 
 /- Note that the tactics for computation in a `Ring` vs `CommRing` is
-`noncomm_ring` resp. `ring.-/
+`noncomm_ring` resp. `ring`.-/
 example {R : Type*} [CommRing R] (x y : R) : (x + y)^2 = x^2 + y^2 + 2*x*y := by ring
 
 example {R : Type*} [Semiring R] (x y : R) : (x + y)^2 = x^2 + y^2 + x*y + y*x := by noncomm_ring

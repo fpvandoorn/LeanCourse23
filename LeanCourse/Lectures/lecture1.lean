@@ -146,7 +146,7 @@ def u : ℕ → ℝ := fun n ↦ 1/n
 The most basic protection against error is type checking: mathematical objects
 must be combined according to their type.
 
-`u` has type `ℕ → ℝ`,hence it expects natural numbers as inputs, and produces
+`u` has type `ℕ → ℝ`, hence it expects natural numbers as inputs, and produces
 real numbers as outputs.
 
 Hence `u 1` is ok and has type `ℝ`.
