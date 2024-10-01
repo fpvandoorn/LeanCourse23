@@ -1,3 +1,6 @@
+> [!WARNING]
+> This is the repository for the course of 23/24. Click [here](https://github.com/fpvandoorn/LeanCourse24) for the course of 24/25.
+
 # Bonn Lean Course WiSe 23/24
 
 ## In this repository
